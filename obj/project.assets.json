@@ -8,28 +8,26 @@
     ".NETCoreApp,Version=v3.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Simar\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\rana8\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Simar\\Desktop\\Model Driven Dev SWEN 746\\SAM2020\\SAM2020.csproj",
+      "projectUniqueName": "C:\\Users\\rana8\\OneDrive\\Desktop\\SAM2020\\SAM2020.csproj",
       "projectName": "SAM2020",
-      "projectPath": "C:\\Users\\Simar\\Desktop\\Model Driven Dev SWEN 746\\SAM2020\\SAM2020.csproj",
-      "packagesPath": "C:\\Users\\Simar\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Simar\\Desktop\\Model Driven Dev SWEN 746\\SAM2020\\obj\\",
+      "projectPath": "C:\\Users\\rana8\\OneDrive\\Desktop\\SAM2020\\SAM2020.csproj",
+      "packagesPath": "C:\\Users\\rana8\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\rana8\\OneDrive\\Desktop\\SAM2020\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Simar\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\rana8\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
