@@ -1,27 +1,48 @@
-﻿@page
+﻿@page "{id?}"
 @model PrivacyModel
 @{
     ViewData["Title"] = "Register";
+    var id = RouteData.Values["id"] is null ? -99 : long.Parse(RouteData.Values["id"].ToString());
 }
-    <h3>Register New User</h3>
+<h3>Register New User</h3>
+
+
+
+@if (id == 0)
+{
+
+    <div class="alert alert-danger">
+        <strong>Error!</strong> Cannot add user in the database. Try Again
+    </div>
+
+}else if (id == -1)
+{
+
+    <div class="alert alert-danger">
+        <strong>Error!</strong> The username/Email is reserved try different user.
+    </div>
+
+}
+
 
 <div style="padding-left:20%;padding-right:20%">
 
     <form method="post">
         <div class="form-group">
-            <label for="email">Email address:</label>
-            <input type="email" class="form-control" id="email">
+            <label for="email" asp-for="user.userEmail"> </label>
+            <input asp-for="user.userEmail" type="email" class="form-control" id="email">
         </div>
         <div class="form-group">
-            <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd">
+            <label for="pwd" asp-for="user.password"> </label>
+            <input asp-for="user.password" type="password" class="form-control" id="pwd">
         </div>
         <div class="checkbox">
             <label><input type="checkbox"> Remember me</label>
         </div>
 
         <button type="submit" class="btn btn-success">Register</button>
- 
+
+
     </form>
 
 </div>
