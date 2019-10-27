@@ -1,0 +1,45 @@
+﻿@page "{id?}"
+@model SAM2020.Pages.ManageUsersModel
+@{
+  ViewData["Title"] = "Manage Users";
+  var messageId = RouteData.Values["id"] is null ? -99 : long.Parse(RouteData.Values["id"].ToString());
+}
+
+<h1>Manage Users</h1>
+
+@if (messageId == 0)
+{
+  <div class="alert alert-success">
+    User Sucessfully Created.
+  </div>
+}
+
+<!-- Todo: Add pagination -->
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Email</th>
+      <th scope="col">Options</th>
+    </tr>
+  </thead>
+  <tbody>
+  @foreach (var item in Model.userList) {
+    <tr>
+      <!-- Todo: Add index value. -->
+      <th scope="row">#</th>
+      <td>@item</td>
+      <td>
+        <button type="button" class="btn btn-primary">Edit</button>
+        <form asp-page-handler="delete" method="POST" style="display: inline;">
+          <button class="btn btn-primary">Delete</button>
+          <input type="hidden" name="selectedUser" value="@item" />
+        </form>
+      </td>
+    </tr>
+  }
+  </tbody>
+</table>
+<a href="./createuser">
+  <button type="button" class="btn btn-primary">Add New User</button>
+</a>

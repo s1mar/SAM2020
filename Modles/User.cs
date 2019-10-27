@@ -15,6 +15,8 @@ namespace SAM2020.Modles
         [Required]
         public string password { get; set; }
 
+        [Required]
+        public string role { get; set; }
         public int addNewUser(String userEmail , String password)
         {
             int addedSuccess = 0;
@@ -31,7 +33,7 @@ namespace SAM2020.Modles
                 MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
                 conn.Open();
                 MySqlCommand comm = conn.CreateCommand();
-                comm.CommandText = "INSERT INTO user(username,password) VALUES(@username, @password)";
+                comm.CommandText = "INSERT INTO user(username,password,role) VALUES(@username, @password, 'AUTHOR')";
                 comm.Parameters.AddWithValue("@username", userEmail);
                 comm.Parameters.AddWithValue("@password", password);
                 comm.ExecuteNonQuery();

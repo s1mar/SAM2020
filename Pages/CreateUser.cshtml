@@ -1,0 +1,40 @@
+﻿@page "{id?}"
+@model CreateUserModel
+@{
+  ViewData["Title"] = "Register";
+  var error_id = RouteData.Values["id"] is null ? -99 : long.Parse(RouteData.Values["id"].ToString());
+
+}
+<h3>Create User</h3>
+
+@if (error_id == 0)
+{
+  <div class="alert alert-danger">
+    <strong>Error!</strong> Cannot add user in the database.
+  </div>
+}
+
+<div>
+  <form method="post">
+    <div class="form-group">
+      <label for="email" asp-for="user.userEmail">Email</label>
+      <input asp-for="user.userEmail" type="email" class="form-control" id="email">
+    </div>
+    <div class="form-group">
+      <label for="role" asp-for="user.role">Role</label>
+      <select asp-for="user.role">
+        <option value="AUTHOR">Author</option>
+        <option value="PCM">PCM</option>
+        <option value="PCC">PCC</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="password" asp-for="user.password">Password</label>
+        <input asp-for="user.password" type="password" class="form-control" id="password">
+    </div>
+    <button type="submit" class="btn btn-success">Create</button>
+    <a href="./manageusers">
+      <button class="btn btn-success">Cancel</button>
+    </a>
+  </form>
+</div>
