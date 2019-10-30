@@ -3,9 +3,11 @@
 -- CREATE DATABASE `sam2020`;
 
 DROP TABLE IF EXISTS `sam2020`.`paper_authors`;
+DROP TABLE IF EXISTS `sam2020`.`notification_recipients`;
 DROP TABLE IF EXISTS `sam2020`.`paper`;
 DROP TABLE IF EXISTS `sam2020`.`user`;
 DROP TABLE IF EXISTS `sam2020`.`role`;
+DROP TABLE IF EXISTS `sam2020`.`notification`;
 
 -- START Create Tables 
 
@@ -49,6 +51,28 @@ CREATE TABLE `sam2020`.`paper_authors` (
   KEY `author_id_idx` (`author_id`),
   CONSTRAINT `author_id` FOREIGN KEY (`author_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `paper_id` FOREIGN KEY (`paper_id`) REFERENCES `paper` (`paper_id`)
+) ;
+
+CREATE TABLE `sam2020`.`notification` (
+  `notification_id` int(11) NOT NULL AUTO_INCREMENT,
+  `senderId` int(11) DEFAULT NULL,
+  `message` varchar(500) DEFAULT NULL,
+  `isRead` tinyint(1) NOT NULL DEFAULT '0',
+  `createdDate` datetime DEFAULT NULL,
+  PRIMARY KEY (`notification_id`),
+  KEY `sender_user_id_idx` (`senderId`),
+  CONSTRAINT `sender_user_id` FOREIGN KEY (`senderId`) REFERENCES `user` (`user_id`)
+) ;
+
+CREATE TABLE `sam2020`.`notification_recipients` (
+  `notification_sender_id` int(11) NOT NULL AUTO_INCREMENT,
+  `notification_id` int(11) NOT NULL,
+  `recipient_id` int(11) NOT NULL,
+  PRIMARY KEY (`notification_sender_id`),
+  KEY `notification_sender_id_idx` (`recipient_id`),
+  KEY `notification_message_id` (`notification_id`),
+  CONSTRAINT `notification_message_id` FOREIGN KEY (`notification_id`) REFERENCES `notification` (`notification_id`),
+  CONSTRAINT `notification_recipient_id` FOREIGN KEY (`recipient_id`) REFERENCES `user` (`user_id`)
 ) ;
 
 -- END Create Tables
