@@ -33,9 +33,10 @@ namespace SAM2020.Modles
                 MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
                 conn.Open();
                 MySqlCommand comm = conn.CreateCommand();
-                comm.CommandText = "INSERT INTO user(username,password,role) VALUES(@username, @password, 'AUTHOR')";
+                comm.CommandText = "INSERT INTO user(username,password,role_id) VALUES(@username, @password, @role_id)";
                 comm.Parameters.AddWithValue("@username", userEmail);
                 comm.Parameters.AddWithValue("@password", password);
+                comm.Parameters.AddWithValue("@role_id", 2); // role author by default
                 comm.ExecuteNonQuery();
                 conn.Close();
                 addedSuccess = 1;
@@ -71,6 +72,30 @@ namespace SAM2020.Modles
             }
 
             return userID;
+        }
+
+        public int getUserRole(String userID)
+        {
+            int userRole = 0;
+
+
+
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
+                conn.Open();
+                MySqlCommand comm = conn.CreateCommand();
+                comm.CommandText = "select role_id from user where user_id=@user_id";
+                comm.Parameters.AddWithValue("@user_id", userID);
+                userRole = Convert.ToInt32(comm.ExecuteScalar());
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                string msg = e.Message;
+            }
+
+            return userRole;
         }
 
         public int findUser(String userEmail)

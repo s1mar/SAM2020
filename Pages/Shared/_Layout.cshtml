@@ -42,16 +42,22 @@
                         <li class="nav-item">
                             @if (userID != 0)
                             {
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/ControlPanel">ControlPanel( @userEmail)</a>
-                            }
-                            else
-                            {
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="/Index"> Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Index">Login</a>
-                            }
+                            </li>
+                        }
+                            
 
-                        </li>
-
-                    </ul>
+                        </ul>
 
 
 
