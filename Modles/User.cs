@@ -17,6 +17,8 @@ namespace SAM2020.Modles
 
         [Required]
         public string role { get; set; }
+
+     
         public int addNewUser(String userEmail , String password)
         {
             int addedSuccess = 0;
@@ -120,6 +122,45 @@ namespace SAM2020.Modles
             }
 
             return userID;
+        }
+
+
+        /*
+         *  Get list of users IDS that has specific rule such us all authors or PCCs, or PCMs
+         * */
+        public List<string> getAllUsersIDs(int roleType)
+        {
+            List<string> usersList = new List<string>();
+
+            try
+            {
+                MySqlConnection DBconnection = new MySqlConnection(DBConnect.MyConString);
+                DBconnection.Open();
+                MySqlCommand SQLCommand = DBconnection.CreateCommand();
+                MySqlDataReader dataReader;
+                SQLCommand.CommandText = "SELECT user_id  FROM USER where role_id=@role_id";
+                SQLCommand.Parameters.AddWithValue("@role_id", roleType);
+                dataReader = SQLCommand.ExecuteReader();
+
+                try
+                {
+                    while (dataReader.Read())
+                    {
+                        usersList.Add(dataReader.GetString(0));
+                    }
+                }
+                finally
+                {
+                    dataReader.Close();
+                    DBconnection.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return usersList;
         }
     }
 }

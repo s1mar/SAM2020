@@ -3,12 +3,17 @@
 @{ 
     var userID = 0;
     var userEmail = "";
+    int myTotalNotifications = 0;
     if(!(Context.Session.GetString("userID") is null))
     {
         userID = Convert.ToInt32(Context.Session.GetString("userID"));
         userEmail = Context.Session.GetString("userEmail");
+
+        Notification notificationManager = new Notification();
+        myTotalNotifications = notificationManager.getMyNotifiactionCount(userID);
     }
-    
+
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -38,15 +43,26 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
 
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             @if (userID != 0)
                             {
+                            
+
+                            @if (myTotalNotifications > 0)
+                            {
+
+                                <li class="nav-item">
+                                     <a class="nav-link text-dark" asp-page="/MyNotifications">Notifications <span class="badge" style="background-color:red">(@myTotalNotifications)</span></a>
+                                    
+                                </li>
+
+
+
+                            }
+
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/ControlPanel">ControlPanel( @userEmail)</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-page="/Index"> Logout</a>
+                                <a class="nav-link text-dark" asp-page="/Index"> Logout( @userEmail)</a>
                             </li>
                         }
                         else
@@ -55,7 +71,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Index">Login</a>
                             </li>
                         }
-                            
+
 
                         </ul>
 
