@@ -1,0 +1,45 @@
+﻿@page "{id?}"
+@model SAM2020.Pages.PreferencesModel
+@{
+    ViewData["Title"] = "Preferences";
+    var id = RouteData.Values["id"] is null ? -99 : long.Parse(RouteData.Values["id"].ToString());
+}
+
+<div>
+  <h1>Preferences</h1>
+  @if (id == 1)
+  {
+    <div class="alert alert-success">
+      Dates Sucessfully modified.
+    </div>
+  }
+
+  @if (id != -99 & id != 1)
+  {
+    <div class="alert alert-danger">
+      There was an error modifying the deadlines.
+    </div>
+  }
+
+  <form method="post">
+    <div class="form-group">
+      <label asp-for="preference.paperSubmission">Paper Submission Deadline</label>
+      <input asp-for="preference.paperSubmission" class="form-control" name="paperSubmission">
+    </div>
+    <div class="form-group">
+      <label asp-for="preference.reviewSubmission">Review Submission Deadline</label>
+      <input asp-for="preference.reviewSubmission" class="form-control" name="reviewSubmission">
+    </div>
+    <div class="form-group">
+      <label asp-for="preference.reviewChoice">Review Submission Deadline</label>
+      <input asp-for="preference.reviewChoice" class="form-control" name="reviewChoice">
+    </div>
+    <div class="form-group">
+      <label asp-for="preference.authorNotification">Review Submission Deadline</label>
+      <input asp-for="preference.authorNotification" class="form-control" name="authorNotification">
+    </div>
+    <div>
+      <button type="submit" class="btn btn-success">Update Deadlines</button>
+    </div>
+  </form>
+</div>

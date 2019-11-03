@@ -79,6 +79,17 @@ CREATE TABLE `sam2020`.`notification_recipients` (
 
 describe notification_recipients;
 
+CREATE TABLE preferences (
+  preference_id int(11) NOT NULL AUTO_INCREMENT,
+  paper_submission DATETIME,
+  review_submission DATETIME,
+  review_choice DATETIME,
+  author_notification DATETIME,
+  PRIMARY KEY (`preference_id`)
+);
+
+describe preferences;
+
 -- END Create Tables
 
 -- START Inserting Data
@@ -90,6 +101,10 @@ VALUES
 ('Author'),
 ('PCC'),
 ('PCM');
+
+-- Insert Default deadlines.
+INSERT INTO PREFERENCES(paper_submission, review_submission, review_choice, author_notification)
+VALUES('2019-11-03 00:00:00','2019-11-03 00:00:00','2019-11-03 00:00:00','2019-11-03 00:00:00');
 
 -- END Inserting Data
 select * from role;
