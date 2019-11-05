@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rana8\\OneDrive\\Desktop\\SAM2020\\SAM2020.csproj": {}
+    "C:\\Users\\rana8\\OneDrive\\Desktop\\ClassProjects\\SAM2020\\SAM2020.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rana8\\OneDrive\\Desktop\\SAM2020\\SAM2020.csproj": {
+    "C:\\Users\\rana8\\OneDrive\\Desktop\\ClassProjects\\SAM2020\\SAM2020.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rana8\\OneDrive\\Desktop\\SAM2020\\SAM2020.csproj",
+        "projectUniqueName": "C:\\Users\\rana8\\OneDrive\\Desktop\\ClassProjects\\SAM2020\\SAM2020.csproj",
         "projectName": "SAM2020",
-        "projectPath": "C:\\Users\\rana8\\OneDrive\\Desktop\\SAM2020\\SAM2020.csproj",
+        "projectPath": "C:\\Users\\rana8\\OneDrive\\Desktop\\ClassProjects\\SAM2020\\SAM2020.csproj",
         "packagesPath": "C:\\Users\\rana8\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rana8\\OneDrive\\Desktop\\SAM2020\\obj\\",
+        "outputPath": "C:\\Users\\rana8\\OneDrive\\Desktop\\ClassProjects\\SAM2020\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rana8\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -38,6 +38,24 @@
       "frameworks": {
         "netcoreapp3.0": {
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.Extensions.Logging.Debug": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
             "MySql.Data": {
               "target": "Package",
               "version": "[8.0.18, )"

@@ -9,7 +9,7 @@ namespace SAM2020.Modles
 {
     public class DBConnect
     {
-        public static String MyConString = "SERVER=localhost;DATABASE=sam2020;UID=root;PASSWORD=DB_PASSWORD;";
+        public static String MyConString = "SERVER=localhost;DATABASE=sam2020;UID=root;PASSWORD=PASSWORD;";
        
     }
 }

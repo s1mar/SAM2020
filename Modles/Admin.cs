@@ -46,7 +46,7 @@ namespace SAM2020.Modles
               MySqlConnection DBconnection = new MySqlConnection(DBConnect.MyConString);
               DBconnection.Open();
               MySqlCommand sqlCommand = DBconnection.CreateCommand();
-              sqlCommand.CommandText = "INSERT INTO user(username,password,role) VALUES(@username, @password, @role)";
+              sqlCommand.CommandText = "INSERT INTO user(username,password,role_id) VALUES(@username, @password, @role)";
               sqlCommand.Parameters.AddWithValue("@username", user.userEmail);
               sqlCommand.Parameters.AddWithValue("@password", user.password);
               sqlCommand.Parameters.AddWithValue("@role", user.role);

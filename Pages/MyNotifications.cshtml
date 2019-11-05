@@ -1,0 +1,34 @@
+﻿@page "{id?}"
+@model SAM2020.Pages.MyNotificationsModel
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "MyNotifications";
+    var notificationSenderIDRead = RouteData.Values["id"] is null ? -99 : Convert.ToInt32(RouteData.Values["id"].ToString());
+    int userID = Convert.ToInt32(HttpContext.Session.GetString("userID"));
+
+
+    Notification notificationManager = new Notification();
+
+
+    // mark readed notifiaction
+    if(notificationSenderIDRead > 0)
+    {
+        notificationManager.notifiactionISReadedBy(notificationSenderIDRead, userID);
+    }
+
+
+    // load unreaded notifiactions
+
+    List<UserNotificationObj> userNotificationsList = notificationManager.getMyNotifiactionDetails(userID);
+}
+
+<h3>MyNotifications</h3>
+@foreach (UserNotificationObj userNotification in userNotificationsList)
+{
+
+    <div class="alert alert-info">
+        <strong>Info!</strong> @userNotification.message <a href="/MyNotifications/@userNotification.notificationSenderID"> mark as read</a>
+    </div>
+
+}
+

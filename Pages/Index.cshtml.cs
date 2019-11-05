@@ -23,7 +23,7 @@ namespace SAM2020.Pages
 
         public void OnGet()
         {
-
+            HttpContext.Session.Clear();
         }
 
 
@@ -43,7 +43,7 @@ namespace SAM2020.Pages
                 return RedirectToPage("/ControlPanel", new { id = userID });
             }
 
-            
+           
         }
     }
 }

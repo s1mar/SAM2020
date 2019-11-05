@@ -2,7 +2,55 @@
 @model SAM2020.Pages.ControlPanelModel
 @{
     ViewData["Title"] = "ControlPanel";
+
+    User userManage = new User();
+    int userRole = userManage.getUserRole(HttpContext.Session.GetString("userID"));
 }
 
-<h1>Welcome @HttpContext.Session.GetString("userEmail")  to the Control Panel</h1>
+
+    <div class="alert alert-success">
+        <h2> Welcome  to the Control Panel base on your role you could:</h2>
+        <br />
+
+
+
+
+        @if (userRole == 1)  // Admin
+        {
+            <div class="card bg-warning text-white">
+                <div class="card-body"><a href="/NotificationManager"> Send Notification </a></div>
+            </div>
+            <br />
+            <div class="card bg-warning text-white">
+                <div class="card-body"><a href="/ManageUsers"> Manage User</a></div>
+            </div>
+
+        }
+        else if (userRole == 2)  // Author
+        {
+            <div class="card bg-warning text-white">
+                <div class="card-body"> <a href="#"> Submit paper</a></div>
+            </div>
+        }
+        else if (userRole == 3)  // PCC
+        {
+            <div class="card bg-warning text-white">
+                <div class="card-body"><a href="/NotificationManager"> Send Notification </a></div>
+            </div>
+            <div class="card bg-warning text-white">
+                <div class="card-body"> <a href="#"> Assign paper</a></div>
+            </div>
+
+        }
+        else if (userRole == 4)  // PCM
+        {
+            <div class="card bg-warning text-white">
+                <div class="card-body"> <a href="#"> Review  paper</a></div>
+            </div>
+        }
+
+
+    </div>
+  
+ 
 
