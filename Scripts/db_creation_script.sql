@@ -1,7 +1,21 @@
 -- Assuming sam2020 created
 -- DROP DATABASE IF EXISTS `sam2020`;
+
+-- DROP Constraints. ONLY if modifying existing DB rather than dropping
+
+ALTER TABLE `sam2020`.`paper` 
+DROP FOREIGN KEY `document_entry`;
+ALTER TABLE `sam2020`.`paper` 
+DROP INDEX `document_entry_idx` ;
+
+ALTER TABLE `sam2020`.`paper_documents` 
+DROP FOREIGN KEY `paper_document`;
+ALTER TABLE `sam2020`.`paper_documents` 
+DROP INDEX `paper_document_idx` ;
+
 -- CREATE DATABASE `sam2020`;
 
+DROP TABLE IF EXISTS `sam2020`.`paper_documents`;
 DROP TABLE IF EXISTS `sam2020`.`paper_authors`;
 DROP TABLE IF EXISTS `sam2020`.`notification_recipients`;
 DROP TABLE IF EXISTS `sam2020`.`paper`;
@@ -33,7 +47,7 @@ CREATE TABLE `sam2020`.`user` (
 CREATE TABLE `sam2020`.`paper` (
   `paper_id` int(11) NOT NULL AUTO_INCREMENT,
   `versionNum` int(11) NOT NULL,
-  `document` blob,
+  `documentId` int(11) DEFAULT NULL,
   `submissionDate` datetime DEFAULT NULL,
   `rating` decimal(2,1) DEFAULT NULL,
   `contactEmail` varchar(100) DEFAULT NULL,
@@ -53,11 +67,23 @@ CREATE TABLE `sam2020`.`paper_authors` (
   CONSTRAINT `paper_id` FOREIGN KEY (`paper_id`) REFERENCES `paper` (`paper_id`)
 ) ;
 
+CREATE TABLE `sam2020`.`paper_documents` (
+  `document_id` int(11) NOT NULL AUTO_INCREMENT,
+  `paper_id` int(11) NOT NULL,
+  `document` blob,
+  `filename` varchar(100) NOT NULL,
+  `versionNum` int(11) NOT NULL,
+  `extension` varchar(10) NOT NULL,
+  `createdDate` datetime NOT NULL,
+  PRIMARY KEY (`document_id`),
+  KEY `paper_document_idx` (`paper_id`),
+  CONSTRAINT `paper_document` FOREIGN KEY (`paper_id`) REFERENCES `paper` (`paper_id`)
+) ;
+
 CREATE TABLE `sam2020`.`notification` (
   `notification_id` int(11) NOT NULL AUTO_INCREMENT,
   `senderId` int(11) DEFAULT NULL,
   `message` varchar(500) DEFAULT NULL,
-  `isRead` tinyint(1) NOT NULL DEFAULT '0',
   `createdDate` datetime DEFAULT NULL,
   PRIMARY KEY (`notification_id`),
   KEY `sender_user_id_idx` (`senderId`),
@@ -68,6 +94,7 @@ CREATE TABLE `sam2020`.`notification_recipients` (
   `notification_sender_id` int(11) NOT NULL AUTO_INCREMENT,
   `notification_id` int(11) NOT NULL,
   `recipient_id` int(11) NOT NULL,
+  `isRead` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`notification_sender_id`),
   KEY `notification_sender_id_idx` (`recipient_id`),
   KEY `notification_message_id` (`notification_id`),
@@ -75,7 +102,31 @@ CREATE TABLE `sam2020`.`notification_recipients` (
   CONSTRAINT `notification_recipient_id` FOREIGN KEY (`recipient_id`) REFERENCES `user` (`user_id`)
 ) ;
 
+CREATE TABLE `sam2020`.`preferences` (
+  `preference_id` int(11) NOT NULL AUTO_INCREMENT,
+  `paper_submission` DATETIME,
+  `review_submission` DATETIME,
+  `review_choice` DATETIME,
+  `author_notification` DATETIME,
+  PRIMARY KEY (`preference_id`)
+);
+
 -- END Create Tables
+
+-- START ALTER Tables
+
+ALTER TABLE `sam2020`.`paper` 
+ADD INDEX `document_entry_idx` (`documentId` ASC) VISIBLE;
+
+ALTER TABLE `sam2020`.`paper` 
+ADD CONSTRAINT `document_entry`
+  FOREIGN KEY (`documentId`)
+  REFERENCES `sam2020`.`paper_documents` (`document_id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+-- END ALTER Tables
 
 -- START Inserting Data
 
@@ -86,5 +137,16 @@ VALUES
 ('Author'),
 ('PCC'),
 ('PCM');
+
+INSERT INTO `sam2020`.`preferences`
+(paper_submission, review_submission, review_choice, author_notification)
+VALUES ('2019-11-03 00:00:00','2019-11-03 00:00:00','2019-11-03 00:00:00','2019-11-03 00:00:00');
+
+-- INSERT Users
+
+INSERT INTO `sam2020`.`user`
+(username, password, role_id)
+VALUES
+('admin@admin.com','admin',1);
 
 -- END Inserting Data
