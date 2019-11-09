@@ -41,6 +41,9 @@ namespace SAM2020.Pages
 
                     string ext = "pdf";
                     DBConnect.InsertDocument(conn, fileData, 1, File.FileName, ext);
+
+                    // Retrieve the document again and save it to the designated folder
+                    DBConnect.GetDocumentByPaperId(conn, 1);
                 }
                 catch (MySqlException ex)
                 {

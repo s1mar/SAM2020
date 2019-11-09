@@ -20,6 +20,22 @@ namespace SAM2020.Modles
             return conn;
         }
 
+        public static void GetDocumentByPaperId(MySqlConnection conn, int paperId)
+        {
+            MySqlCommand comm = conn.CreateCommand();
+            comm.CommandText = "SELECT document FROM paper_documents WHERE paper_id = @paper_id LIMIT 1";
+
+            string filePath = "wwwroot/papers/"; // Unsure if would read same place from here
+
+            using (MySqlDataReader rdr = comm.ExecuteReader())
+            {
+                if (rdr.Read())
+                {
+                    File.WriteAllBytes(filePath, (byte[])rdr["document"]);
+                }
+            }
+        }
+
         public static int InsertDocument(MySqlConnection conn, byte[] fileData, int paperId, String fileName, String extension)
         {
 
