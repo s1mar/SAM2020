@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.IO;
 using System.Threading.Tasks;
 using SAM2020.Modles;
+using MySql.Data.MySqlClient;
 
 namespace SAM2020.Pages
 {
@@ -23,7 +24,35 @@ namespace SAM2020.Pages
             if (File != null)
             {
                 var filePath = "wwwroot/papers/" + File.FileName;
-                File.CopyTo(new FileStream(filePath, FileMode.Create));
+                byte[] fileData = null;
+
+                using (var ms = new MemoryStream())
+                {
+                    File.CopyTo(ms);
+                    fileData = ms.ToArray();
+                }
+
+                MySqlConnection conn = null;
+
+                try
+                {
+                    conn = DBConnect.GetConnection();
+                    conn.Open();
+
+                    string ext = "pdf";
+                    DBConnect.InsertDocument(conn, fileData, 1, File.FileName, ext);
+                }
+                catch (MySqlException ex)
+                {
+                    Console.WriteLine("Error: {0}", ex.ToString());
+                }
+                finally
+                {
+                    if (conn != null)
+                    {
+                        conn.Close();
+                    }
+                }
             }
 
             return Page();
