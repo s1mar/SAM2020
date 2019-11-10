@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using SAM2020.Modles;
+using SAM2020.Models;
 namespace SAM2020.Pages
 {
     public class IndexModel : PageModel

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SAM2020.Modles
+namespace SAM2020.Models
 {
     public class UserNotificationObj
     {

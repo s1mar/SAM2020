@@ -90,6 +90,21 @@ CREATE TABLE preferences (
 
 describe preferences;
 
+CREATE TABLE `sam2020`.`paper` (
+  `paper_id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) DEFAULT NULL,
+  `co_authors` varchar(100) DEFAULT NULL,
+  `topic` varchar(100) DEFAULT NULL,
+  `author_id` int(11) NOT NULL,
+  `version` int(11) NOT NULL,
+  `file_reference` varchar(100) DEFAULT NULL,
+  `submission_date` datetime DEFAULT NULL,
+  `status` int(11),
+  PRIMARY KEY (`paper_id`)
+);
+
+describe paper;
+
 -- END Create Tables
 
 -- START Inserting Data

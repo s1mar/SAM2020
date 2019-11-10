@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using MySql.Data.MySqlClient;
 
-namespace SAM2020.Modles
+namespace SAM2020.Models
 {
     public class Notification
     {
