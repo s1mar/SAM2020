@@ -15,6 +15,7 @@ DROP INDEX `paper_document_idx` ;
 
 -- CREATE DATABASE `sam2020`;
 
+DROP TABLE IF EXISTS `sam2020`.`review_requests`;
 DROP TABLE IF EXISTS `sam2020`.`paper_documents`;
 DROP TABLE IF EXISTS `sam2020`.`paper_authors`;
 DROP TABLE IF EXISTS `sam2020`.`notification_recipients`;
@@ -80,6 +81,23 @@ CREATE TABLE `sam2020`.`paper_documents` (
   CONSTRAINT `paper_document` FOREIGN KEY (`paper_id`) REFERENCES `paper` (`paper_id`)
 ) ;
 
+CREATE TABLE `sam2020`.`review_requests` (
+  `review_request_id` INT NOT NULL AUTO_INCREMENT,
+  `paper_id` INT NOT NULL,
+  `assignee_id` INT NOT NULL,
+  PRIMARY KEY (`review_request_id`),
+  INDEX `requested_paper_id_idx` (`paper_id` ASC) VISIBLE,
+  INDEX `requesting_user_id_idx` (`assignee_id` ASC) VISIBLE,
+  CONSTRAINT `requested_paper_id`
+    FOREIGN KEY (`paper_id`)
+    REFERENCES `sam2020`.`paper` (`paper_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `requesting_user_id`
+    FOREIGN KEY (`assignee_id`)
+    REFERENCES `sam2020`.`user` (`user_id`)
+) ;
+
 CREATE TABLE `sam2020`.`notification` (
   `notification_id` int(11) NOT NULL AUTO_INCREMENT,
   `senderId` int(11) DEFAULT NULL,
@@ -137,10 +155,6 @@ VALUES
 ('Author'),
 ('PCC'),
 ('PCM');
-
-INSERT INTO `sam2020`.`preferences`
-(paper_submission, review_submission, review_choice, author_notification)
-VALUES ('2019-11-03 00:00:00','2019-11-03 00:00:00','2019-11-03 00:00:00','2019-11-03 00:00:00');
 
 -- INSERT Users
 
