@@ -9,7 +9,7 @@ namespace SAM2020.Models
 {
     public class Papers
     {
-        public int createPaper(Paper paper)
+        public int addNewPaper(Paper paper)
         {
             int operationStatus = -1;
 
@@ -34,6 +34,51 @@ namespace SAM2020.Models
             }
           
           return operationStatus;
+      }
+
+      public List<Paper> getPapersByUser(string authorId)
+      {
+          List<Paper> userPapers = new List<Paper>();
+
+          try
+          {
+              MySqlConnection DBconnection = new MySqlConnection(DBConnect.MyConString);
+              DBconnection.Open();
+              MySqlCommand SQLCommand = DBconnection.CreateCommand();
+              MySqlDataReader dataReader;
+              SQLCommand.CommandText = "SELECT *  FROM paper where author_id=@authorId";
+              SQLCommand.Parameters.AddWithValue("@authorId", authorId);
+              dataReader = SQLCommand.ExecuteReader();
+
+              try
+              {
+                  while (dataReader.Read())
+                  {
+                      Paper paper = new Paper();
+                      paper.id = dataReader.GetInt32(0);
+                      paper.title = dataReader.GetString(1);
+                      paper.coAuthors = dataReader.GetString(2);
+                      paper.topic = dataReader.GetString(3);
+                      paper.author = dataReader.GetInt32(4);
+                      paper.version = dataReader.GetInt32(5);
+                      paper.fileReference = dataReader.GetString(6);
+                      paper.submissionDate = dataReader.GetDateTime(7);
+                      paper.status = dataReader.GetInt32(8);
+                      userPapers.Add(paper);
+                  }
+              }
+              finally
+              {
+                  dataReader.Close();
+                  DBconnection.Close();
+              }
+          }
+          catch (Exception e)
+          {
+              Console.WriteLine(e.Message);
+          }
+
+          return userPapers;
       }
     }
 }

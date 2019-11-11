@@ -26,18 +26,19 @@ CREATE TABLE `sam2020`.`user` (
 );
 describe user;
 
-
-
 CREATE TABLE `sam2020`.`paper` (
   `paper_id` int(11) NOT NULL AUTO_INCREMENT,
-  `versionNum` int(11) NOT NULL,
-  `document` blob,
-  `submissionDate` datetime DEFAULT NULL,
-  `rating` decimal(2,1) DEFAULT NULL,
-  `contactEmail` varchar(100) DEFAULT NULL,
-  `approvalStatus` tinyint(1) NOT NULL DEFAULT '0',
+  `title` varchar(100) DEFAULT NULL,
+  `co_authors` varchar(100) DEFAULT NULL,
+  `topic` varchar(200) DEFAULT NULL,
+  `author_id` int(11) NOT NULL,
+  `version` int(11) NOT NULL,
+  `file_reference` varchar(100) DEFAULT NULL,
+  `submission_date` datetime DEFAULT NULL,
+  `status` int(11),
   PRIMARY KEY (`paper_id`)
 );
+
 describe paper;
 
 CREATE TABLE `sam2020`.`paper_authors` (
@@ -89,21 +90,6 @@ CREATE TABLE preferences (
 );
 
 describe preferences;
-
-CREATE TABLE `sam2020`.`paper` (
-  `paper_id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) DEFAULT NULL,
-  `co_authors` varchar(100) DEFAULT NULL,
-  `topic` varchar(100) DEFAULT NULL,
-  `author_id` int(11) NOT NULL,
-  `version` int(11) NOT NULL,
-  `file_reference` varchar(100) DEFAULT NULL,
-  `submission_date` datetime DEFAULT NULL,
-  `status` int(11),
-  PRIMARY KEY (`paper_id`)
-);
-
-describe paper;
 
 -- END Create Tables
 

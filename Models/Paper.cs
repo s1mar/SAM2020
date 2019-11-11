@@ -9,6 +9,7 @@ namespace SAM2020.Models
 {
     public class Paper
     {
+        public int id { get; set; }
         [Required]
         public string title { get; set; }
         public int author { get; set; }

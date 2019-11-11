@@ -1,0 +1,31 @@
+﻿@page "{id?}"
+@model SAM2020.Pages.MyPapersModel
+@{
+    ViewData["Title"] = "My Papers";
+    var id = RouteData.Values["id"] is null ? -99 : long.Parse(RouteData.Values["id"].ToString());
+    var host = "/papers/";
+}
+
+<div>
+  <h1>My Papers</h1>
+  @if (Model.userPapers.Count == 0) {
+    <div class="alert alert-primary">
+      You have not submitted any document yet.
+    </div>
+  }
+  else 
+  {
+    @foreach (var paper in @Model.userPapers)
+    {
+        <div class="card" style="margin-bottom: 15px;">
+          <div class="card-body">
+            <h5 class="card-title">@paper.title</h5>
+            <h6 class="card-subtitle mb-2 text-muted">@paper.topic</h6>
+            <p class="card-text"><b>Co-Authors:</b> @paper.coAuthors</p>
+            <p class="card-text"><b>Date:</b> @paper.submissionDate</p>
+            <a href="@String.Concat(host, paper.fileReference)" target="_blank" class="card-link">View File</a>
+          </div>
+        </div>
+    }
+  }
+</div>

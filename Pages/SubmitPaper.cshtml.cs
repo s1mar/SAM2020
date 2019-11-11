@@ -46,7 +46,7 @@ namespace SAM2020.Pages
             // Save information
             Papers papers = new Papers();
 
-            int status = papers.createPaper(paper);
+            int status = papers.addNewPaper(paper);
 
             // Create the file.
             if (status != -1) {
