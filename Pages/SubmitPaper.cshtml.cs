@@ -30,7 +30,8 @@ namespace SAM2020.Pages
         }
 
         public async Task<IActionResult> OnPostAsync()
-        {
+        {   
+            int  userID  = Convert.ToInt32(HttpContext.Session.GetString("userID"));
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -38,7 +39,7 @@ namespace SAM2020.Pages
             // If all the information on the form is valid.
             var fileExtension = System.IO.Path.GetExtension(File.FileName);
             paper.status = 1;
-            paper.author = Convert.ToInt32(HttpContext.Session.GetString("userID"));
+            paper.author = userID;
             paper.version = 1;
             paper.fileReference = Guid.NewGuid().ToString() + fileExtension;
             paper.submissionDate = DateTime.Now;
@@ -53,6 +54,11 @@ namespace SAM2020.Pages
                 var filePath = "wwwroot/papers/" + paper.fileReference;
                 File.CopyTo(new FileStream(filePath, FileMode.Create));
 
+                Notification notificationManager = new Notification();
+                //Notify PCC new paper has been submitted
+                 notificationManager.sendNotifiactionAll(" New Paper Submitted by " + HttpContext.Session.GetString("userEmail"), (int)UserRole.PCC, userID);
+                //Notify Author his paper has been submitted
+                notificationManager.sendNotifiactionToOneUser("Your paper has been submitted successfully", userID, userID);
                 return RedirectToPage("/SubmitPaper", new { id = 1 }); 
             }
 

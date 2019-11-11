@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = "ControlPanel";
 
-    User userManage = new User();
-    int userRole = userManage.getUserRole(HttpContext.Session.GetString("userID"));
+     
+    int userRole = (int)HttpContext.Session.GetInt32("userRole");
 }
 
 
@@ -15,7 +15,7 @@
 
 
 
-        @if (userRole == 1)  // Admin
+        @if (userRole == (int)UserRole.Admin)  // Admin
         {
             <div class="card bg-warning text-white">
                 <div class="card-body"><a href="/NotificationManager"> Send Notification </a></div>
@@ -26,23 +26,28 @@
             </div>
 
         }
-        else if (userRole == 2)  // Author
+        else if (userRole == (int)UserRole.Author)  // Author
         {
             <div class="card bg-warning text-white">
-                <div class="card-body"> <a href="#"> Submit paper</a></div>
+                <div class="card-body"> <a href="/SubmitPaper"> Submit paper</a></div>
+            </div>
+            <br />
+            <div class="card bg-warning text-white">
+                <div class="card-body"> <a href="/MyPapers"> My Papers</a></div>
             </div>
         }
-        else if (userRole == 3)  // PCC
+        else if (userRole == (int)UserRole.PCC)  // PCC
         {
             <div class="card bg-warning text-white">
                 <div class="card-body"><a href="/NotificationManager"> Send Notification </a></div>
             </div>
+            <br />
             <div class="card bg-warning text-white">
                 <div class="card-body"> <a href="#"> Assign paper</a></div>
             </div>
 
         }
-        else if (userRole == 4)  // PCM
+        else if (userRole == (int)UserRole.PCM)  // PCM
         {
             <div class="card bg-warning text-white">
                 <div class="card-body"> <a href="#"> Review  paper</a></div>
