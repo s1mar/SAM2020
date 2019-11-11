@@ -1,28 +1,33 @@
--- Assuming sam2020 created
--- DROP DATABASE IF EXISTS `sam2020`;
+-- DROP schema IF ExISTS
+DROP DATABASE IF EXISTS `sam2020`;
 
 -- DROP Constraints. ONLY if modifying existing DB rather than dropping
 
-ALTER TABLE `sam2020`.`paper` 
-DROP FOREIGN KEY `document_entry`;
-ALTER TABLE `sam2020`.`paper` 
-DROP INDEX `document_entry_idx` ;
+-- ALTER TABLE `sam2020`.`paper` 
+-- DROP FOREIGN KEY `document_entry`;
+-- ALTER TABLE `sam2020`.`paper` 
+-- DROP INDEX `document_entry_idx` ;
 
-ALTER TABLE `sam2020`.`paper_documents` 
-DROP FOREIGN KEY `paper_document`;
-ALTER TABLE `sam2020`.`paper_documents` 
-DROP INDEX `paper_document_idx` ;
+-- ALTER TABLE `sam2020`.`paper_documents` 
+-- DROP FOREIGN KEY `paper_document`;
+-- ALTER TABLE `sam2020`.`paper_documents` 
+-- DROP INDEX `paper_document_idx` ;
 
--- CREATE DATABASE `sam2020`;
+-- CREATE schema
 
+CREATE DATABASE `sam2020`;
+
+-- DROP Tables if exist
+
+DROP TABLE IF EXISTS `sam2020`.`preferences`;
 DROP TABLE IF EXISTS `sam2020`.`review_requests`;
 DROP TABLE IF EXISTS `sam2020`.`paper_documents`;
 DROP TABLE IF EXISTS `sam2020`.`paper_authors`;
 DROP TABLE IF EXISTS `sam2020`.`notification_recipients`;
 DROP TABLE IF EXISTS `sam2020`.`paper`;
+DROP TABLE IF EXISTS `sam2020`.`notification`;
 DROP TABLE IF EXISTS `sam2020`.`user`;
 DROP TABLE IF EXISTS `sam2020`.`role`;
-DROP TABLE IF EXISTS `sam2020`.`notification`;
 
 -- START Create Tables 
 
