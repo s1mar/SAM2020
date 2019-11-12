@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SAM2020.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace SAM2020.Pages
 {
@@ -17,11 +18,47 @@ namespace SAM2020.Pages
         }
 
         public async Task<IActionResult> OnPostAsync()
-        {        
-            preference.paperSubmission = Convert.ToDateTime(Request.Form["paperSubmission"]);
-            preference.reviewSubmission = Convert.ToDateTime(Request.Form["reviewSubmission"]);
-            preference.reviewChoice = Convert.ToDateTime(Request.Form["reviewChoice"]);
-            preference.authorNotification = Convert.ToDateTime(Request.Form["authorNotification"]);
+        {
+
+            Notification notificationManager = new Notification();
+            int userID = Convert.ToInt32(HttpContext.Session.GetString("userID"));
+
+            DateTime paperSubmission = Convert.ToDateTime(  Request.Form["paperSubmission"]);
+            //update Paper Submission Deadline
+            if (paperSubmission != preference.paperSubmission){
+               
+                notificationManager.sendNotifiactionAll(" New Paper Submission Deadline is " + paperSubmission.ToString(), (int)UserRole.Author, userID);
+
+                preference.paperSubmission = paperSubmission;
+            }
+
+
+            DateTime reviewSubmission = Convert.ToDateTime(Request.Form["reviewSubmission"]);
+            //update Review Submission Deadline
+            if (reviewSubmission != preference.reviewSubmission)
+            {
+                notificationManager.sendNotifiactionAll(" New Review Submission Deadline is " + reviewSubmission.ToString(), (int)UserRole.PCM, userID);
+                preference.reviewSubmission = reviewSubmission;
+            }
+
+            DateTime reviewChoice = Convert.ToDateTime(Request.Form["reviewChoice"]);
+
+            //update review Choice deadline
+            if (reviewChoice != preference.reviewChoice)
+            {
+                notificationManager.sendNotifiactionAll(" New review Choice Deadline is " + reviewChoice.ToString(), (int)UserRole.PCM, userID);
+                preference.reviewChoice = reviewChoice;
+            }
+
+            DateTime authorNotification = Convert.ToDateTime(Request.Form["authorNotification"]);
+
+            //update author Notification deadline
+            if (authorNotification != preference.authorNotification)
+            {
+                notificationManager.sendNotifiactionAll(" New author Notification Deadline is " + authorNotification.ToString(), (int)UserRole.Author, userID);
+                preference.authorNotification = authorNotification;
+            }
+
             int result = preference.updatePreferences();
 
             return RedirectToPage("/Preferences", new { id = result });
