@@ -20,6 +20,7 @@ CREATE DATABASE `sam2020`;
 -- DROP Tables if exist
 
 DROP TABLE IF EXISTS `sam2020`.`preferences`;
+DROP TABLE IF EXISTS `sam2020`.`reviews`;
 DROP TABLE IF EXISTS `sam2020`.`review_requests`;
 DROP TABLE IF EXISTS `sam2020`.`paper_documents`;
 DROP TABLE IF EXISTS `sam2020`.`paper_authors`;
@@ -103,6 +104,28 @@ CREATE TABLE `sam2020`.`review_requests` (
     REFERENCES `sam2020`.`user` (`user_id`)
 ) ;
 
+CREATE TABLE `sam2020`.`reviews` (
+  `review_id` INT NOT NULL AUTO_INCREMENT,
+  `paper_id` INT NOT NULL,
+  `reviewer_id` INT NOT NULL,
+  `text` VARCHAR(500) NULL,
+  `createdDate` DATETIME NOT NULL,
+  `editedDate` DATETIME NULL,
+  PRIMARY KEY (`review_id`),
+  INDEX `review_paper_idx` (`paper_id` ASC) VISIBLE,
+  INDEX `reviewer_review_idx` (`reviewer_id` ASC) VISIBLE,
+  CONSTRAINT `review_paper`
+    FOREIGN KEY (`paper_id`)
+    REFERENCES `sam2020`.`paper` (`paper_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `reviewer_review`
+    FOREIGN KEY (`reviewer_id`)
+    REFERENCES `sam2020`.`user` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
 CREATE TABLE `sam2020`.`notification` (
   `notification_id` int(11) NOT NULL AUTO_INCREMENT,
   `senderId` int(11) DEFAULT NULL,
@@ -167,5 +190,9 @@ INSERT INTO `sam2020`.`user`
 (username, password, role_id)
 VALUES
 ('admin@admin.com','admin',1);
+
+INSERT INTO `sam2020`.`preferences`
+(paper_submission, review_submission, review_choice, author_notification)
+VALUES('2019-11-03 00:00:00','2019-11-03 00:00:00','2019-11-03 00:00:00','2019-11-03 00:00:00');
 
 -- END Inserting Data
