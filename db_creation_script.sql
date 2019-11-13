@@ -91,6 +91,15 @@ CREATE TABLE preferences (
 
 describe preferences;
 
+CREATE TABLE `sam2020`.`preselection` (
+  `preselection_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `paper_id` int(11) NOT NULL,
+  PRIMARY KEY (`preselection_id`)
+);
+
+describe preselection;
+
 -- END Create Tables
 
 -- START Inserting Data

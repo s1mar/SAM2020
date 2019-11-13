@@ -80,5 +80,114 @@ namespace SAM2020.Models
 
           return userPapers;
       }
+
+      public List<Paper> getAllPapers()
+      {
+          List<Paper> userPapers = new List<Paper>();
+
+          try
+          {
+              MySqlConnection DBconnection = new MySqlConnection(DBConnect.MyConString);
+              DBconnection.Open();
+              MySqlCommand SQLCommand = DBconnection.CreateCommand();
+              MySqlDataReader dataReader;
+              SQLCommand.CommandText = "SELECT p.paper_id, p.title, p.co_authors, p.topic, p.author_id, p.version, p.file_reference, p.submission_date, p.status, u.username FROM paper p, user u Where p.author_id = u.user_id";
+              dataReader = SQLCommand.ExecuteReader();
+
+              try
+              {
+                  while (dataReader.Read())
+                  {
+                      Paper paper = new Paper();
+                      paper.id = dataReader.GetInt32(0);
+                      paper.title = dataReader.GetString(1);
+                      paper.coAuthors = dataReader.GetString(2);
+                      paper.topic = dataReader.GetString(3);
+                      paper.author = dataReader.GetInt32(4);
+                      paper.version = dataReader.GetInt32(5);
+                      paper.fileReference = dataReader.GetString(6);
+                      paper.submissionDate = dataReader.GetDateTime(7);
+                      paper.status = dataReader.GetInt32(8);
+                      paper.authorName = dataReader.GetString(9);
+                      userPapers.Add(paper);
+                  }
+              }
+              finally
+              {
+                  dataReader.Close();
+                  DBconnection.Close();
+              }
+          }
+          catch (Exception e)
+          {
+              Console.WriteLine(e.Message);
+          }
+
+          return userPapers;
+      }
+
+      public int preSelectPapers(string userId, Array papers)
+        {
+            int operationStatus = -1;
+            string baseSqlCommand = "INSERT INTO preselection(user_id, paper_id) values";
+
+            foreach (string paperId in papers)
+            {
+                string insertion = "("+ userId + ", " + paperId + "),";
+                baseSqlCommand = baseSqlCommand + insertion;
+            }
+
+            baseSqlCommand = baseSqlCommand.Remove(baseSqlCommand.Length - 1);
+            baseSqlCommand = baseSqlCommand + ';';
+
+            try {
+              MySqlConnection DBconnection = new MySqlConnection(DBConnect.MyConString);
+              DBconnection.Open();
+              MySqlCommand sqlCommand = DBconnection.CreateCommand();
+              sqlCommand.CommandText = baseSqlCommand;
+              operationStatus = sqlCommand.ExecuteNonQuery();
+              DBconnection.Close();
+            }
+            catch (Exception e) {
+              Console.WriteLine(e.Message);
+            }
+
+          return operationStatus;
+      }
+
+      public List<int> getPreselectedPapers(string userId)
+      {
+          List<int> userPreselection = new List<int>();
+
+          try
+          {
+              MySqlConnection DBconnection = new MySqlConnection(DBConnect.MyConString);
+              DBconnection.Open();
+              MySqlCommand SQLCommand = DBconnection.CreateCommand();
+              MySqlDataReader dataReader;
+              SQLCommand.CommandText = "SELECT paper_id  FROM preselection where user_id=@userId";
+              SQLCommand.Parameters.AddWithValue("@userId", userId);
+              dataReader = SQLCommand.ExecuteReader();
+
+              try
+              {
+                  while (dataReader.Read())
+                  {
+                      userPreselection.Add(dataReader.GetInt32(0));
+                  }
+              }
+              finally
+              {
+                  dataReader.Close();
+                  DBconnection.Close();
+              }
+          }
+          catch (Exception e)
+          {
+              Console.WriteLine(e.Message);
+          }
+
+          return userPreselection;
+      }
     }
 }
