@@ -29,6 +29,7 @@ describe user;
 CREATE TABLE `sam2020`.`paper` (
   `paper_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) DEFAULT NULL,
+  `reference_name` varchar(100) DEFAULT NULL,
   `co_authors` varchar(100) DEFAULT NULL,
   `topic` varchar(200) DEFAULT NULL,
   `author_id` int(11) NOT NULL,

@@ -17,9 +17,10 @@ namespace SAM2020.Models
               MySqlConnection DBconnection = new MySqlConnection(DBConnect.MyConString);
               DBconnection.Open();
               MySqlCommand sqlCommand = DBconnection.CreateCommand();
-              sqlCommand.CommandText = "INSERT INTO paper(author_id, title, topic, co_authors, version, file_reference, submission_date, status) VALUES(@authorId, @title, @topic, @coAuthors, @version, @fileReference, @submissionDate, @status)";
+              sqlCommand.CommandText = "INSERT INTO paper(author_id, title, reference_name, topic, co_authors, version, file_reference, submission_date, status) VALUES(@authorId, @title, @referenceName, @topic, @coAuthors, @version, @fileReference, @submissionDate, @status)";
               sqlCommand.Parameters.AddWithValue("@authorId", paper.author);
               sqlCommand.Parameters.AddWithValue("@title", paper.title);
+              sqlCommand.Parameters.AddWithValue("@referenceName", paper.referenceName);
               sqlCommand.Parameters.AddWithValue("@topic", paper.topic);
               sqlCommand.Parameters.AddWithValue("@coAuthors", paper.coAuthors);
               sqlCommand.Parameters.AddWithValue("@version", paper.version);

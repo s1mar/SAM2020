@@ -38,10 +38,12 @@ namespace SAM2020.Pages
             }
             // If all the information on the form is valid.
             var fileExtension = System.IO.Path.GetExtension(File.FileName);
+            var referenceGuid = Guid.NewGuid().ToString();
             paper.status = 1;
             paper.author = userID;
             paper.version = 1;
-            paper.fileReference = Guid.NewGuid().ToString() + fileExtension;
+            paper.referenceName = referenceGuid;
+            paper.fileReference = referenceGuid + "-" + paper.version.ToString() + fileExtension;
             paper.submissionDate = DateTime.Now;
 
             // Save information

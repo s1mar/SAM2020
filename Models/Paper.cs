@@ -15,6 +15,7 @@ namespace SAM2020.Models
         public int author { get; set; }
         [Required]
         public string topic { get; set; }
+        public string referenceName { get; set; }
         public string fileReference { get; set; }
         public int version { get; set; }
         [Required]
