@@ -23,6 +23,7 @@ namespace SAM2020.Models
         public DateTime submissionDate { get; set; }
         public int status { get; set; }
         public string authorName { get; set; }
+        public List<string> fileList { get; set; }
 
     }
 }

@@ -40,6 +40,7 @@ namespace SAM2020.Models
       public List<Paper> getPapersByUser(string authorId)
       {
           List<Paper> userPapers = new List<Paper>();
+          Dictionary<string, List<string>> paperFiles = new Dictionary<string, List<string>>() {};
 
           try
           {
@@ -47,7 +48,11 @@ namespace SAM2020.Models
               DBconnection.Open();
               MySqlCommand SQLCommand = DBconnection.CreateCommand();
               MySqlDataReader dataReader;
-              SQLCommand.CommandText = "SELECT *  FROM paper where author_id=@authorId";
+              SQLCommand.CommandText = @"
+                SELECT paper_id, title, co_authors, topic, author_id, version, file_reference, submission_date, status, reference_name
+                FROM paper
+                WHERE author_id=@authorId
+                ORDER BY version DESC";
               SQLCommand.Parameters.AddWithValue("@authorId", authorId);
               dataReader = SQLCommand.ExecuteReader();
 
@@ -55,7 +60,12 @@ namespace SAM2020.Models
               {
                   while (dataReader.Read())
                   {
-                      Paper paper = new Paper();
+                    Paper paper = new Paper();
+                    string paperId = dataReader.GetString(9);
+                    string fileReference = dataReader.GetString(6);
+
+                    if (!paperFiles.ContainsKey(paperId))
+                    {
                       paper.id = dataReader.GetInt32(0);
                       paper.title = dataReader.GetString(1);
                       paper.coAuthors = dataReader.GetString(2);
@@ -65,7 +75,18 @@ namespace SAM2020.Models
                       paper.fileReference = dataReader.GetString(6);
                       paper.submissionDate = dataReader.GetDateTime(7);
                       paper.status = dataReader.GetInt32(8);
+                      paper.referenceName = dataReader.GetString(9);
+                      // Add paper to the user papers list
                       userPapers.Add(paper);
+                      // Add file reference to
+                      paperFiles[paperId] = new List<string>(){ paper.fileReference };
+                    } else {
+                      List<string> files = paperFiles[paperId];
+                      files.Add(fileReference);
+                      paperFiles[paperId] = files;
+                    }
+
+                    paper.fileList = paperFiles[paperId];
                   }
               }
               finally
@@ -77,6 +98,10 @@ namespace SAM2020.Models
           catch (Exception e)
           {
               Console.WriteLine(e.Message);
+          }
+          // Sort papers in by version ASC.
+          foreach(var paper in userPapers) {
+            paper.fileList.Reverse();
           }
 
           return userPapers;

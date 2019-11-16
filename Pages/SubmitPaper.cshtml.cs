@@ -30,7 +30,7 @@ namespace SAM2020.Pages
         }
 
         public async Task<IActionResult> OnPostAsync()
-        {   
+        {
             int  userID  = Convert.ToInt32(HttpContext.Session.GetString("userID"));
             if (!ModelState.IsValid)
             {
@@ -58,7 +58,7 @@ namespace SAM2020.Pages
 
                 Notification notificationManager = new Notification();
                 //Notify PCC new paper has been submitted
-                 notificationManager.sendNotifiactionAll(" New Paper Submitted by " + HttpContext.Session.GetString("userEmail"), (int)UserRole.PCC, userID);
+                notificationManager.sendNotifiactionAll(" New Paper Submitted by " + HttpContext.Session.GetString("userEmail"), (int)UserRole.PCC, userID);
                 //Notify Author his paper has been submitted
                 notificationManager.sendNotifiactionToOneUser("Your paper has been submitted successfully", userID, userID);
                 return RedirectToPage("/SubmitPaper", new { id = 1 }); 

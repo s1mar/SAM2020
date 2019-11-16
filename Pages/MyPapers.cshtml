@@ -8,6 +8,25 @@
 
 <div>
   <h1>My Papers</h1>
+  @if (id == 1)
+  {
+    <div class="alert alert-danger">
+        Please select a file.
+    </div>
+  }
+  @if (id == 2)
+  {
+    <div class="alert alert-danger">
+        Something was wrong submitting your paper.
+    </div>
+  }
+  @if (id == 3)
+  {
+    <div class="alert alert-success">
+        Your paper was uploaded successfully.
+    </div>
+  }
+
   @if (Model.userPapers.Count == 0) {
     <div class="alert alert-primary">
       You have not submitted any document yet.
@@ -17,13 +36,70 @@
   {
     @foreach (var paper in @Model.userPapers)
     {
+        {
+          var accordionId = "optionsAccordion" + paper.id;
+        }
         <div class="card" style="margin-bottom: 15px;">
           <div class="card-body">
             <h5 class="card-title">@paper.title</h5>
             <h6 class="card-subtitle mb-2 text-muted">@paper.topic</h6>
             <p class="card-text"><b>Co-Authors:</b> @paper.coAuthors</p>
             <p class="card-text"><b>Date:</b> @paper.submissionDate</p>
-            <a href="@String.Concat(host, paper.fileReference)" target="_blank" class="card-link">View File</a>
+            <p class="card-text"><b>Versions:</b> @paper.version</p>
+            <div class="accordion" id="@String.Concat("accordion", @paper.id)">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="@String.Concat("#", "collapse1", @paper.id)" aria-controls="collapseOne">
+                      Files
+                    </button>
+                  </h2>
+                </div>
+                <div id="@String.Concat("collapse1", @paper.id)" class="collapse" aria-expanded="false" aria-labelledby="headingOne" data-parent="@String.Concat("#", "accordion", @paper.id)">
+                  <div class="card-body">
+                      @{
+                        int paperFileNumber = 1;
+                      }
+                      @foreach (var file in @paper.fileList) {
+                        <a
+                          href="@String.Concat(host, file)"
+                          target="_blank"
+                          class="card-link">
+                            @String.Concat("Version ", paperFileNumber)
+                        </a>
+                        {paperFileNumber = paperFileNumber + 1;}
+                      }
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="headingTwo">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="@String.Concat("#", "collapse2", @paper.id)" aria-expanded="false" aria-controls="collapseTwo">
+                      Upload new version
+                    </button>
+                  </h2>
+                </div>
+                <div id="@String.Concat("collapse2", @paper.id)" class="collapse" aria-labelledby="headingTwo" data-parent="@String.Concat("#", "accordion", @paper.id)">
+                  <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                      <div>
+                        <input type="hidden" name="title" value="@paper.title">
+                        <input type="hidden" name="reference_name" value="@paper.referenceName">
+                        <input type="hidden" name="co_authors" value="@paper.coAuthors">
+                        <input type="hidden" name="topic" value="@paper.topic">
+                        <input type="hidden" name="author" value="@paper.author">
+                        <input type="hidden" name="version" value="@paper.version">
+                      </div>
+                      <div>
+                        <input type="file" name="newFile" accept="application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display: block; margin-bottom: 10px;">
+                        <button type="submit" class="btn btn-success">Submit</button> 
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
     }
