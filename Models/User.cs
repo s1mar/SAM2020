@@ -9,15 +9,14 @@ namespace SAM2020.Models
 {
     public class User
     {
+        public int id { get; set; }
         [Required]
         public string userEmail { get; set; }
-
+        public string name { get; set; }
         [Required]
         public string password { get; set; }
-
         [Required]
         public string role { get; set; }
-
      
         public int addNewUser(String userEmail , String password)
         {

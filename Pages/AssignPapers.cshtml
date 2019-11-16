@@ -1,0 +1,54 @@
+﻿@page "{id?}"
+@model SAM2020.Pages.AssignPapersModel
+@{
+    ViewData["Title"] = "Submit Paper";
+    List<Paper> preselectedObjects = new List<Paper>();
+    var id = RouteData.Values["id"] is null ? -99 : long.Parse(RouteData.Values["id"].ToString());
+    int userId = Int32.Parse(HttpContext.Session.GetString("userID"));
+    var BASE_URL = "/assignpapersdetail?userid="; 
+    
+}
+
+<h1>Assing Papers for review</h1>
+@if (id == 1)
+{
+    <div class="alert alert-success">
+        <strong>Your preselection has been recorded.
+    </div>
+}else if (id == 2)
+{
+    <div class="alert alert-warning">
+        <strong>Sorry, there was something wrong saving your selection.
+    </div>
+} else if (id == 3)
+{
+    <div class="alert alert-info">
+        <strong>Please select at least one paper.
+    </div>
+}
+
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Option</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var user in @Model.allPcms)
+      {
+        <tr>
+          <th scope="row">@user.id</th>
+          <td>@user.name</td>
+          <td>@user.userEmail</td>
+          <td>
+            <a href="@String.Concat(BASE_URL, user.id)" class="card-link">Assing Papers</a>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
