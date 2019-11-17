@@ -73,6 +73,32 @@
                 </div>
               </div>
               <div class="card">
+                <div class="card-header" id="headingThree">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="@String.Concat("#", "collapse3", @paper.id)" aria-expanded="false" aria-controls="collapseThree">
+                      <span>
+                        Final Review
+                      </span>
+                    </button>
+                  </h2>
+                </div>
+                <div id="@String.Concat("collapse3", @paper.id)" class="collapse" aria-labelledby="headingThree" data-parent="@String.Concat("#", "accordion", @paper.id)">
+                  <div class="card-body">
+                    @if (String.IsNullOrEmpty(@paper.finalReview))
+                    {
+                      <div class="alert alert-danger">
+                        Review not provided yet.
+                      </div>
+                    }
+                    else {
+                      <p>
+                        @paper.finalReview
+                      </p>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="card">
                 <div class="card-header" id="headingTwo">
                   <h2 class="mb-0">
                     <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="@String.Concat("#", "collapse2", @paper.id)" aria-expanded="false" aria-controls="collapseTwo">

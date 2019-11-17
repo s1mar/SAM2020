@@ -37,6 +37,7 @@ CREATE TABLE `sam2020`.`paper` (
   `version` int(11) NOT NULL,
   `file_reference` varchar(100) DEFAULT NULL,
   `submission_date` datetime DEFAULT NULL,
+  `final_review` varchar(500) DEFAULT NULL,
   `status` int(11),
   PRIMARY KEY (`paper_id`)
 );

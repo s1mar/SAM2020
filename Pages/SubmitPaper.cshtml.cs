@@ -42,6 +42,7 @@ namespace SAM2020.Pages
             paper.status = 1;
             paper.author = userID;
             paper.version = 1;
+            paper.finalReview = "";
             paper.referenceName = referenceGuid;
             paper.fileReference = referenceGuid + "-" + paper.version.ToString() + fileExtension;
             paper.submissionDate = DateTime.Now;

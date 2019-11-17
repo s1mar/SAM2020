@@ -109,6 +109,60 @@ namespace SAM2020.Models
 
           return operationResult;
       }
+      public Dictionary<string, List<Review>> getPapersReviews()
+      {
+          Dictionary<string, List<Review>> papersReviews = new Dictionary<string, List<Review>>() {};
+
+          try
+          {
+              MySqlConnection DBconnection = new MySqlConnection(DBConnect.MyConString);
+              DBconnection.Open();
+              MySqlCommand SQLCommand = DBconnection.CreateCommand();
+              MySqlDataReader dataReader;
+              SQLCommand.CommandText = @"
+                SELECT r.review_id, r.paper_reference_name, r.edited_date, r.text, u.username, u.name
+                FROM review r, user u
+                WHERE r.reviewer_id=u.user_id";
+              dataReader = SQLCommand.ExecuteReader();
+
+              try
+              {
+                  while (dataReader.Read())
+                  {
+                    string paperId = dataReader.GetString(1);
+                    Review review = new Review();
+
+                    review.id = dataReader.GetInt32(0);
+                    review.paperReferenceName = dataReader.GetString(1);
+                    review.editedDate = dataReader.GetDateTime(2);
+                    review.text = dataReader.GetString(3);
+                    review.reviewerName = dataReader.GetString(4);
+                    review.reviewerEmail = dataReader.GetString(5);
+
+                    if (!papersReviews.ContainsKey(paperId))
+                    {
+                      papersReviews[paperId] = new List<Review>(){ review };;
+                    }
+                    else {
+                      List<Review> reviews = papersReviews[paperId];
+                      reviews.Add(review);
+                      papersReviews[paperId] = reviews;
+                    }
+                  }
+              }
+              finally
+              {
+                  dataReader.Close();
+                  DBconnection.Close();
+              }
+          }
+          catch (Exception e)
+          {
+              Console.WriteLine(e.Message);
+          }
+
+          return papersReviews;
+      }
 
     }
 }

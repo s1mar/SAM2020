@@ -17,7 +17,9 @@ namespace SAM2020.Models
               MySqlConnection DBconnection = new MySqlConnection(DBConnect.MyConString);
               DBconnection.Open();
               MySqlCommand sqlCommand = DBconnection.CreateCommand();
-              sqlCommand.CommandText = "INSERT INTO paper(author_id, title, reference_name, topic, co_authors, version, file_reference, submission_date, status) VALUES(@authorId, @title, @referenceName, @topic, @coAuthors, @version, @fileReference, @submissionDate, @status)";
+              sqlCommand.CommandText = @"
+                INSERT INTO paper(author_id, title, reference_name, topic, co_authors, version, file_reference, submission_date, status, final_review)
+                VALUES(@authorId, @title, @referenceName, @topic, @coAuthors, @version, @fileReference, @submissionDate, @status, @finalReview)";
               sqlCommand.Parameters.AddWithValue("@authorId", paper.author);
               sqlCommand.Parameters.AddWithValue("@title", paper.title);
               sqlCommand.Parameters.AddWithValue("@referenceName", paper.referenceName);
@@ -27,6 +29,7 @@ namespace SAM2020.Models
               sqlCommand.Parameters.AddWithValue("@fileReference", paper.fileReference);
               sqlCommand.Parameters.AddWithValue("@submissionDate", paper.submissionDate);
               sqlCommand.Parameters.AddWithValue("@status", paper.status);
+              sqlCommand.Parameters.AddWithValue("@finalReview", paper.finalReview);
               operationStatus = sqlCommand.ExecuteNonQuery();
               DBconnection.Close(); 
             }
@@ -49,7 +52,7 @@ namespace SAM2020.Models
               MySqlCommand SQLCommand = DBconnection.CreateCommand();
               MySqlDataReader dataReader;
               SQLCommand.CommandText = @"
-                SELECT paper_id, title, co_authors, topic, author_id, version, file_reference, submission_date, status, reference_name
+                SELECT paper_id, title, co_authors, topic, author_id, version, file_reference, submission_date, status, reference_name, final_review
                 FROM paper
                 WHERE author_id=@authorId
                 ORDER BY version DESC";
@@ -76,6 +79,7 @@ namespace SAM2020.Models
                       paper.submissionDate = dataReader.GetDateTime(7);
                       paper.status = dataReader.GetInt32(8);
                       paper.referenceName = dataReader.GetString(9);
+                      paper.finalReview = dataReader.GetString(10);
                       // Add paper to the user papers list
                       userPapers.Add(paper);
                       // Add file reference to
@@ -110,6 +114,7 @@ namespace SAM2020.Models
       public List<Paper> getAllPapers()
       {
           List<Paper> userPapers = new List<Paper>();
+          List<string> papersIds = new List<string>();
 
           try
           {
@@ -117,13 +122,19 @@ namespace SAM2020.Models
               DBconnection.Open();
               MySqlCommand SQLCommand = DBconnection.CreateCommand();
               MySqlDataReader dataReader;
-              SQLCommand.CommandText = "SELECT p.paper_id, p.reference_name, p.title, p.co_authors, p.topic, p.author_id, p.version, p.file_reference, p.submission_date, p.status, u.username FROM paper p, user u Where p.author_id = u.user_id";
+              SQLCommand.CommandText = @"
+              SELECT p.paper_id, p.reference_name, p.title, p.co_authors, p.topic, p.author_id, p.version, p.file_reference, p.submission_date, p.status, u.username
+              FROM paper p, user u
+              WHERE p.author_id = u.user_id
+              ORDER BY p.version DESC";
               dataReader = SQLCommand.ExecuteReader();
 
               try
               {
                   while (dataReader.Read())
                   {
+                    if (!papersIds.Contains(dataReader.GetString(1)))
+                    {
                       Paper paper = new Paper();
                       paper.id = dataReader.GetInt32(0);
                       paper.referenceName = dataReader.GetString(1);
@@ -137,6 +148,8 @@ namespace SAM2020.Models
                       paper.status = dataReader.GetInt32(9);
                       paper.authorName = dataReader.GetString(10);
                       userPapers.Add(paper);
+                      papersIds.Add(dataReader.GetString(1));
+                    }
                   }
               }
               finally
@@ -192,7 +205,10 @@ namespace SAM2020.Models
               DBconnection.Open();
               MySqlCommand SQLCommand = DBconnection.CreateCommand();
               MySqlDataReader dataReader;
-              SQLCommand.CommandText = "SELECT paper_id  FROM preselection where user_id=@userId";
+              SQLCommand.CommandText = @"
+                SELECT paper_id
+                FROM preselection
+                WHERE user_id=@userId";
               SQLCommand.Parameters.AddWithValue("@userId", userId);
               dataReader = SQLCommand.ExecuteReader();
 
@@ -414,6 +430,103 @@ namespace SAM2020.Models
           }
 
           return userPapers;
+      }
+
+      public List<Paper> getReviewsPapers()
+      {
+          List<Paper> userPapers = new List<Paper>();
+          Dictionary<string, List<string>> paperFiles = new Dictionary<string, List<string>>() {};
+
+          try
+          {
+              MySqlConnection DBconnection = new MySqlConnection(DBConnect.MyConString);
+              DBconnection.Open();
+              MySqlCommand SQLCommand = DBconnection.CreateCommand();
+              MySqlDataReader dataReader;
+              SQLCommand.CommandText = @"
+                SELECT p.paper_id, p.title, p.co_authors, p.topic, p.author_id, p.version, p.file_reference, p.submission_date, p.status, p.reference_name, p.final_review
+                FROM paper p, review r
+                WHERE p.reference_name=r.paper_reference_name
+                ORDER BY version DESC";
+              dataReader = SQLCommand.ExecuteReader();
+
+              try
+              {
+                  while (dataReader.Read())
+                  {
+                    Paper paper = new Paper();
+                    string paperId = dataReader.GetString(9);
+                    string fileReference = dataReader.GetString(6);
+
+                    if (!paperFiles.ContainsKey(paperId))
+                    {
+                      paper.id = dataReader.GetInt32(0);
+                      paper.title = dataReader.GetString(1);
+                      paper.coAuthors = dataReader.GetString(2);
+                      paper.topic = dataReader.GetString(3);
+                      paper.author = dataReader.GetInt32(4);
+                      paper.version = dataReader.GetInt32(5);
+                      paper.fileReference = dataReader.GetString(6);
+                      paper.submissionDate = dataReader.GetDateTime(7);
+                      paper.status = dataReader.GetInt32(8);
+                      paper.referenceName = dataReader.GetString(9);
+                      paper.finalReview = dataReader.GetString(10);
+                      // Add paper to the user papers list
+                      userPapers.Add(paper);
+                      // Add file reference to
+                      paperFiles[paperId] = new List<string>(){ paper.fileReference };
+                    } else {
+                      List<string> files = paperFiles[paperId];
+                      files.Add(fileReference);
+                      paperFiles[paperId] = files;
+                    }
+
+                    paper.fileList = paperFiles[paperId];
+                  }
+              }
+              finally
+              {
+                  dataReader.Close();
+                  DBconnection.Close();
+              }
+          }
+          catch (Exception e)
+          {
+              Console.WriteLine(e.Message);
+          }
+          // Sort papers in by version ASC.
+          foreach(var paper in userPapers) {
+            paper.fileList.Reverse();
+          }
+
+          return userPapers;
+      }
+
+      public int updateReview(string paperId, string finalReview, string status)
+      {
+          int operationResult = -1;
+
+          try
+          {
+              MySqlConnection DBconnection = new MySqlConnection(DBConnect.MyConString);
+              DBconnection.Open();
+              MySqlCommand SQLCommand = DBconnection.CreateCommand();
+              SQLCommand.CommandText = @"
+                UPDATE paper
+                SET final_review=@finalReview, status=@status
+                WHERE paper_id=@paperId;";
+              SQLCommand.Parameters.AddWithValue("@finalReview", finalReview);
+              SQLCommand.Parameters.AddWithValue("@paperId", paperId);
+              SQLCommand.Parameters.AddWithValue("@status", status);
+              operationResult = SQLCommand.ExecuteNonQuery();
+              DBconnection.Close();
+          }
+          catch (Exception e)
+          {
+              Console.WriteLine(e.Message);
+          }
+
+          return operationResult;
       }
     }
 }

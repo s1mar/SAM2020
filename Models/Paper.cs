@@ -24,6 +24,7 @@ namespace SAM2020.Models
         public int status { get; set; }
         public string authorName { get; set; }
         public List<string> fileList { get; set; }
+        public string finalReview { get; set; }
 
     }
 }

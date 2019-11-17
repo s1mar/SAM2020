@@ -12,9 +12,23 @@ namespace SAM2020.Pages
     public class PreferencesModel : PageModel
     {
       public Preference preference { get; set; } = Preference.Instance;
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
+          string user = HttpContext.Session.GetString("userID");
+          int userRole = (int)HttpContext.Session.GetInt32("userRole");
+
+          if (string.IsNullOrEmpty(user)) {
+            return RedirectToPage(Routes.INDEX);
+          }
+
+          // If the user is not an Admin, redirect to the main menu
+          if (userRole != (int)UserRole.Admin) {
+            return RedirectToPage(Routes.CONTROL_PANEL);
+          }
+
           preference.getPreferences();
+
+          return null;
         }
 
         public async Task<IActionResult> OnPostAsync()
