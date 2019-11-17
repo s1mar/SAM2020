@@ -1,0 +1,152 @@
+﻿@page "{id?}"
+@model SAM2020.Pages.MyAssignedPapersModel
+@{
+    ViewData["Title"] = "My Assigned Papers";
+    var id = RouteData.Values["id"] is null ? -99 : long.Parse(RouteData.Values["id"].ToString());
+    var host = "/papers/";
+}
+
+<div>
+  <h1>My Assigned Papers</h1>
+  @if (id == 1)
+  {
+    <div class="alert alert-success">
+        Your Review was succesfully recorded.
+    </div>
+  }
+  @if (id == 2)
+  {
+    <div class="alert alert-danger">
+        Please select a fill the review field.
+    </div>
+  }
+  @if (id == 3)
+  {
+    <div class="alert alert-danger">
+        Something was wrong saving your review.
+    </div>
+  }
+
+  @if (Model.reviewsPapers.Count == 0)
+  {
+    <div class="alert alert-primary">
+      You don't have any paper assigned yet.
+    </div>
+  }
+  else 
+  {
+    @foreach (var paper in @Model.reviewsPapers)
+    {
+        {
+          var accordionId = "optionsAccordion" + paper.id;
+        }
+        <div class="card" style="margin-bottom: 15px;">
+          <div class="card-body">
+            <h5 class="card-title">@paper.title</h5>
+            <h6 class="card-subtitle mb-2 text-muted">@paper.topic</h6>
+            <p class="card-text"><b>Co-Authors:</b> @paper.coAuthors</p>
+            <p class="card-text"><b>Date:</b> @paper.submissionDate</p>
+            <p class="card-text"><b>Versions:</b> @paper.version</p>
+            <div class="accordion" id="@String.Concat("accordion", @paper.id)">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="@String.Concat("#", "collapse1", @paper.id)" aria-controls="collapseOne">
+                      Files
+                    </button>
+                  </h2>
+                </div>
+                <div id="@String.Concat("collapse1", @paper.id)" class="collapse" aria-expanded="false" aria-labelledby="headingOne" data-parent="@String.Concat("#", "accordion", @paper.id)">
+                  <div class="card-body">
+                      @{
+                        int paperFileNumber = 1;
+                      }
+                      @foreach (var file in @paper.fileList) {
+                        <a
+                          href="@String.Concat(host, file)"
+                          target="_blank"
+                          class="card-link">
+                            @String.Concat("Version ", paperFileNumber)
+                        </a>
+                        {paperFileNumber = paperFileNumber + 1;}
+                      }
+                  </div>
+                </div>
+              </div>
+              @if (@Model.userReviews.ContainsKey(@paper.referenceName))
+              {
+                <div class="card">
+                  <div class="card-header" id="headingTwo">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="@String.Concat("#", "collapse2", @paper.id)" aria-expanded="false" aria-controls="collapseTwo">
+                        @if (String.IsNullOrEmpty(@Model.userReviews[@paper.referenceName].text))
+                        {
+                          <span>
+                            Your Review
+                          </span>
+                        }
+                        else 
+                        {
+                          <span>
+                            Your Review (Last Edited: @Model.userReviews[@paper.referenceName].editedDate)
+                          </span>
+                        }
+                      </button>
+                    </h2>
+                  </div>
+                  <div id="@String.Concat("collapse2", @paper.id)" class="collapse" aria-labelledby="headingTwo" data-parent="@String.Concat("#", "accordion", @paper.id)">
+                    <div class="card-body">
+                      @if (String.IsNullOrEmpty(@Model.userReviews[@paper.referenceName].text))
+                      {
+                        <div class="alert alert-danger">
+                          Review not provided yet.
+                        </div>
+                      }
+                      else {
+                        <p>
+                          @Model.userReviews[@paper.referenceName].text
+                        </p>
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="@String.Concat("#", "collapse3", @paper.id)" aria-expanded="false" aria-controls="collapseTwo">
+                        @if (String.IsNullOrEmpty(@Model.userReviews[@paper.referenceName].text))
+                        {
+                          <span>
+                            Add Review
+                          </span>
+                        } else {
+                          <span>
+                            Update Review
+                          </span>
+                        }                       
+                      </button>
+                    </h2>
+                  </div>
+                  <div id="@String.Concat("collapse3", @paper.id)" class="collapse" aria-labelledby="headingTwo" data-parent="@String.Concat("#", "accordion", @paper.id)">
+                    <div class="card-body">
+                      <form method="post">
+                        <div>
+                          <input type="hidden" name="review_id" value="@Model.userReviews[@paper.referenceName].id">
+                        </div>
+                        <div>
+                          <div>
+                            <textarea name="review_text" rows="5" placeholder="Add your review here" style="width: 100%;"></textarea>
+                          </div>
+                          <button type="submit" class="btn btn-success">Submit</button> 
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+    }
+  }
+</div>

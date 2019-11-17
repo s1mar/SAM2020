@@ -15,5 +15,6 @@ namespace SAM2020.Models
     public const string CONTROL_PANEL = "/controlpanel";
     public const string ASSIGN_PAPERS = "/assignpapers";
     public const string MY_PAPERS = "/mypapers";
+    public const string MY_ASSIGNED_PAPERS = "/myassignedpapers";
   }
 }

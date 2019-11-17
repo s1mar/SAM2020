@@ -345,5 +345,75 @@ namespace SAM2020.Models
 
           return userPapers;
       }
+
+      public List<Paper> getReviewsPapersByUser(string reviewerId)
+      {
+          List<Paper> userPapers = new List<Paper>();
+          Dictionary<string, List<string>> paperFiles = new Dictionary<string, List<string>>() {};
+
+          try
+          {
+              MySqlConnection DBconnection = new MySqlConnection(DBConnect.MyConString);
+              DBconnection.Open();
+              MySqlCommand SQLCommand = DBconnection.CreateCommand();
+              MySqlDataReader dataReader;
+              SQLCommand.CommandText = @"
+                SELECT p.paper_id, p.title, p.co_authors, p.topic, p.author_id, p.version, p.file_reference, p.submission_date, p.status, p.reference_name
+                FROM paper p, review r
+                WHERE r.reviewer_id=@reviewerId AND p.reference_name=r.paper_reference_name
+                ORDER BY version DESC";
+              SQLCommand.Parameters.AddWithValue("@reviewerId", reviewerId);
+              dataReader = SQLCommand.ExecuteReader();
+
+              try
+              {
+                  while (dataReader.Read())
+                  {
+                    Paper paper = new Paper();
+                    string paperId = dataReader.GetString(9);
+                    string fileReference = dataReader.GetString(6);
+
+                    if (!paperFiles.ContainsKey(paperId))
+                    {
+                      paper.id = dataReader.GetInt32(0);
+                      paper.title = dataReader.GetString(1);
+                      paper.coAuthors = dataReader.GetString(2);
+                      paper.topic = dataReader.GetString(3);
+                      paper.author = dataReader.GetInt32(4);
+                      paper.version = dataReader.GetInt32(5);
+                      paper.fileReference = dataReader.GetString(6);
+                      paper.submissionDate = dataReader.GetDateTime(7);
+                      paper.status = dataReader.GetInt32(8);
+                      paper.referenceName = dataReader.GetString(9);
+                      // Add paper to the user papers list
+                      userPapers.Add(paper);
+                      // Add file reference to
+                      paperFiles[paperId] = new List<string>(){ paper.fileReference };
+                    } else {
+                      List<string> files = paperFiles[paperId];
+                      files.Add(fileReference);
+                      paperFiles[paperId] = files;
+                    }
+
+                    paper.fileList = paperFiles[paperId];
+                  }
+              }
+              finally
+              {
+                  dataReader.Close();
+                  DBconnection.Close();
+              }
+          }
+          catch (Exception e)
+          {
+              Console.WriteLine(e.Message);
+          }
+          // Sort papers in by version ASC.
+          foreach(var paper in userPapers) {
+            paper.fileList.Reverse();
+          }
+
+          return userPapers;
+      }
     }
 }

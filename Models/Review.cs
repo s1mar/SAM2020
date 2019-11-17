@@ -10,19 +10,9 @@ namespace SAM2020.Models
     public class Review
     {
         public int id { get; set; }
-        [Required]
-        public string title { get; set; }
-        public int author { get; set; }
-        [Required]
-        public string topic { get; set; }
-        public string referenceName { get; set; }
-        public string fileReference { get; set; }
-        public int version { get; set; }
-        [Required]
-        public string coAuthors { get; set; }
-        public DateTime submissionDate { get; set; }
-        public int status { get; set; }
-        public string authorName { get; set; }
+        public string paperReferenceName { get; set; }
+        public string text { get; set; }
+        public DateTime editedDate { get; set; }
 
     }
 }
