@@ -16,5 +16,6 @@ namespace SAM2020.Models
     public const string ASSIGN_PAPERS = "/assignpapers";
     public const string MY_PAPERS = "/mypapers";
     public const string MY_ASSIGNED_PAPERS = "/myassignedpapers";
+    public const string MANAGE_USERS = "/manageusers";
   }
 }

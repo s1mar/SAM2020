@@ -20,6 +20,7 @@ namespace SAM2020.Pages
 
         public async Task<IActionResult> OnGet() {
           string user = HttpContext.Session.GetString("userID");
+          int userRole = (int)HttpContext.Session.GetInt32("userRole");
 
           if (string.IsNullOrEmpty(user)) {
             return RedirectToPage(Routes.INDEX);

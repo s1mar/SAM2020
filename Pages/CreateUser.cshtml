@@ -18,22 +18,30 @@
   <form method="post">
     <div class="form-group">
       <label for="email" asp-for="user.userEmail">Email</label>
-      <input asp-for="user.userEmail" type="email" class="form-control" id="email">
+      <input asp-validation-for="user.userEmail" asp-for="user.userEmail" type="email" class="form-control" id="email">
+      <span asp-validation-for="user.userEmail" class="text-danger"></span>
     </div>
     <div class="form-group">
-      <label for="role" asp-for="user.role">Role</label>
+      <label for="name" asp-for="user.name">Name</label>
+      <input asp-validation-for="user.name" asp-for="user.name" class="form-control" id="name">
+      <span asp-validation-for="user.name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+      <label for="role" asp-validation-for="user.role" asp-for="user.role">Role</label>
       <select asp-for="user.role">
         <option value="@((int)UserRole.Author)">Author</option>
         <option value="@((int)UserRole.PCC)">PCC</option>
         <option value="@((int)UserRole.PCM)">PCM</option>
       </select>
+      <span asp-validation-for="user.role" class="text-danger"></span>
     </div>
     <div class="form-group">
-      <label for="password" asp-for="user.password">Password</label>
-        <input asp-for="user.password" type="password" class="form-control" id="password">
+      <label for="password" asp-validation-for="user.password" asp-for="user.password">Password</label>
+      <input asp-for="user.password" type="password" class="form-control" id="password">
+      <span asp-validation-for="user.password" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-success">Create</button>
-    <a href="./manageusers">
+    <a type="button" href="/manageusers">
       <button class="btn btn-success">Cancel</button>
     </a>
   </form>

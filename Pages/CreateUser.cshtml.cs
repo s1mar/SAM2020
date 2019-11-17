@@ -28,6 +28,11 @@ namespace SAM2020.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
             Admin admin = new Admin();
             int status = admin.createUser(user);
 
