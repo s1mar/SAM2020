@@ -24,7 +24,7 @@ namespace SAM2020.Models
         [Required]
         public string role { get; set; }
      
-        public int addNewUser(String userEmail , String password)
+        public int addNewUser(String userEmail , String password,String name)
         {
             int addedSuccess = 0;
 
@@ -40,10 +40,11 @@ namespace SAM2020.Models
                 MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
                 conn.Open();
                 MySqlCommand comm = conn.CreateCommand();
-                comm.CommandText = "INSERT INTO user(username,password,role_id) VALUES(@username, @password, @role_id)";
+                comm.CommandText = "INSERT INTO user(username,password,role_id,name) VALUES(@username, @password, @role_id,@name)";
                 comm.Parameters.AddWithValue("@username", userEmail);
                 comm.Parameters.AddWithValue("@password", password);
-                comm.Parameters.AddWithValue("@role_id", 2); // role author by default
+                comm.Parameters.AddWithValue("@name", name);
+                comm.Parameters.AddWithValue("@role_id",(int) UserRole.Author); // role author by default
                 comm.ExecuteNonQuery();
                 conn.Close();
                 addedSuccess = 1;

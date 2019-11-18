@@ -29,7 +29,7 @@ namespace SAM2020.Pages
         public async Task<IActionResult> OnPostAsync()
         {
             User userManage = new User();
-            int status = userManage.addNewUser(user.userEmail, user.password);
+            int status = userManage.addNewUser(user.userEmail, user.password,user.name);
             if(status >0)
             {
                 return RedirectToPage("/index", new { id = 2 });

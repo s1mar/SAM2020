@@ -146,5 +146,5 @@ VALUES('2019-11-03 00:00:00','2019-11-03 00:00:00','2019-11-03 00:00:00','2019-1
 select * from role;
 
 
-insert into user (username,password,role_id)VALUES('admin@admin.com','admin',1);
+insert into user (name,username,password,role_id)VALUES('admin','admin@admin.com','admin',1);
   select * from user;
