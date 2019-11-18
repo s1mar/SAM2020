@@ -107,6 +107,7 @@ CREATE TABLE `sam2020`.`review` (
   `review_id` INT NOT NULL AUTO_INCREMENT,
   `paper_id` INT NOT NULL,
   `reviewer_id` INT NOT NULL,
+  `paper_reference_name` VARCHAR(500) NULL,
   `text` VARCHAR(500) NULL,
   `createdDate` DATETIME NOT NULL,
   `editedDate` DATETIME NULL,
