@@ -38,7 +38,7 @@ namespace SAM2020.Pages
             else
             {
                 HttpContext.Session.SetString("userID", userID.ToString());
-                HttpContext.Session.SetString("userEmail", user.userEmail);
+                HttpContext.Session.SetString("userName", user.getUserNameByID(userID.ToString()));
                 int userRole = userManage.getUserRole(userID.ToString());
                 HttpContext.Session.SetInt32("userRole", userRole);
                 return RedirectToPage("/ControlPanel", new { id = userID });

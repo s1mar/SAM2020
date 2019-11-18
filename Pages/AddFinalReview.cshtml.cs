@@ -55,6 +55,10 @@ namespace SAM2020.Pages
             int status = papers.updateReview(paperId, reviewText, paperStatus);
 
             if (status != -1) {
+                //Notify Authorabout paper decision
+                Notification notificationManager = new Notification();
+                int statusPaper = notificationManager.sendNotifiactionToOneUser("Your paper has been "+(paperStatus=="2"?"approved":"reject"), papers.getAuthorByPaperID(paperId), Convert.ToInt32(HttpContext.Session.GetString("userID")));
+
                 return RedirectToPage(Routes.ADD_FINAL_REVIEW, new { id = 1 });
             }
 

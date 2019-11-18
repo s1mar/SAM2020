@@ -58,7 +58,13 @@ namespace SAM2020.Pages
 
           if (operationResult != -1)
           {
-              return RedirectToPage(Routes.MANAGE_USERS, new { id = 4 });
+
+                //Notify user his role has been Changed
+                Notification notificationManager = new Notification();
+                string roleNanme = Enum.GetName(typeof(UserRole), Convert.ToInt32(user.role));
+                int status = notificationManager.sendNotifiactionToOneUser("Your role has been updated by "+ HttpContext.Session.GetString("userName") +" to be an "+ roleNanme, user.id, Convert.ToInt32(HttpContext.Session.GetString("userID")));
+                return RedirectToPage(Routes.MANAGE_USERS, new { id = 4 });
+
           }
 
           return RedirectToPage(Routes.MANAGE_USERS, new { id = 2 });

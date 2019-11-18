@@ -106,6 +106,30 @@ namespace SAM2020.Models
             return userRole;
         }
 
+        public string getUserNameByID(String userID)
+        {
+            string name = "";
+
+
+
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
+                conn.Open();
+                MySqlCommand comm = conn.CreateCommand();
+                comm.CommandText = "select name from user where user_id=@user_id";
+                comm.Parameters.AddWithValue("@user_id", userID);
+                name = Convert.ToString(comm.ExecuteScalar());
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                string msg = e.Message;
+            }
+
+            return name;
+        }
+
         public int findUser(String userEmail)
         {
             int userID = 0;

@@ -528,5 +528,30 @@ namespace SAM2020.Models
 
           return operationResult;
       }
+
+        public int getAuthorByPaperID(string paperId)
+        {
+            int userID = 0;
+
+
+
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
+                conn.Open();
+                MySqlCommand comm = conn.CreateCommand();
+                comm.CommandText = "select author_id from paper where  paper_id=@paperId";
+                comm.Parameters.AddWithValue("@paper_id", paperId);
+                userID = Convert.ToInt32(comm.ExecuteScalar());
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                string msg = e.Message;
+            }
+
+            return userID;
+        }
+
     }
 }

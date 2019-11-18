@@ -2,12 +2,12 @@
 
 @{ 
     var userID = 0;
-    var userEmail = "";
+    var userName = "";
     int myTotalNotifications = 0;
     if(!(Context.Session.GetString("userID") is null))
     {
         userID = Convert.ToInt32(Context.Session.GetString("userID"));
-        userEmail = Context.Session.GetString("userEmail");
+        userName = Context.Session.GetString("userName");
 
         Notification notificationManager = new Notification();
         myTotalNotifications = notificationManager.getMyNotifiactionCount(userID);
@@ -62,7 +62,7 @@
                             }
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-page="/Index"> Logout( @userEmail)</a>
+                                <a class="nav-link text-dark" asp-page="/Index"> Logout( @userName)</a>
                             </li>
                         }
                         else
