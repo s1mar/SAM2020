@@ -24,12 +24,12 @@ namespace SAM2020.Pages
 
           // If the user is not logged in
           if (string.IsNullOrEmpty(user)) {
-            return RedirectToPage("/index");
+            return RedirectToPage(Routes.INDEX);
           }
 
           // If the user is not a PCM or Admin, redirect to the main menu
-          if (userRole != (int)UserRole.PCM & userRole != (int)UserRole.Admin) {
-            return RedirectToPage("/controlpanel");
+          if (userRole != Roles.PCM & userRole != Roles.ADMIN) {
+            return RedirectToPage(Routes.CONTROL_PANEL);
           }
 
           Papers papers = new Papers();
@@ -46,16 +46,16 @@ namespace SAM2020.Pages
             var selectedPapers = Request.Form["CheckedPapers"];
 
             if (String.IsNullOrEmpty(selectedPapers)) {
-              return RedirectToPage("/preselectpapers", new { id = 3 });
+              return RedirectToPage(Routes.PRE_SELECT_PAPERS, new { id = 3 });
             }
 
             int result = papers.preSelectPapers(userId, selectedPapers);
 
             if (result == -1) {
-              return RedirectToPage("/preselectpapers", new { id = 2 });
+              return RedirectToPage(Routes.PRE_SELECT_PAPERS, new { id = 2 });
             }
 
-            return RedirectToPage("/preselectpapers", new { id = 1 });
+            return RedirectToPage(Routes.PRE_SELECT_PAPERS, new { id = 1 });
         }
     }
 }

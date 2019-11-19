@@ -2,75 +2,38 @@
 @model SAM2020.Pages.ControlPanelModel
 @{
     ViewData["Title"] = "ControlPanel";
-
-     
     int userRole = (int)HttpContext.Session.GetInt32("userRole");
+    int admin = Roles.ADMIN;
+    int pcc = Roles.PCC;
+    int pcm = Roles.PCM;
+    int author = Roles.AUTHOR;
+    List<List<object>> menuOptions = new List<List<object>>()
+    {
+      new List<object>(){ Routes.ASSIGN_PAPERS, "/img/assign_paper.png", "Assign Papers", new List<int>(){ pcc }},
+      new List<object>(){ Routes.ADD_FINAL_REVIEW, "/img/add_final_review.png", "Final Review", new List<int>(){ pcc }},
+      new List<object>(){ Routes.MY_PAPERS, "/img/my_papers.png", "My Papers", new List<int>(){ author, pcm }},
+      new List<object>(){ Routes.MANAGE_USERS, "/img/manage_users.png", "Manage Users", new List<int>(){}},
+      new List<object>(){ Routes.MY_ASSIGNED_PAPERS, "/img/my_assigned_papers.png", "Assigned Papers", new List<int>(){ pcm }},
+      new List<object>(){ Routes.PRE_SELECT_PAPERS, "/img/pre_select_papers.png", "Pre-Select Papers", new List<int>(){ pcm }},
+      new List<object>(){ Routes.SUBMIT_PAPER, "/img/submit_paper.png", "Submit Paper", new List<int>(){ pcm, author }},
+      new List<object>(){ Routes.PREFERENCES, "/img/preferences.png", "Preferences", new List<int>(){}},
+      new List<object>(){ "reports_route", "/img/reports.png", "Reports", new List<int>(){}},
+    };
 }
 
-
-    <div class="alert alert-success">
-        <h2> Welcome  to the Control Panel base on your role you could:</h2>
-        <br />
-
-
-
-
-        @if (userRole == (int)UserRole.Admin)  // Admin
-        {
-            <div class="card bg-warning text-white">
-                <div class="card-body"><a href="/NotificationManager"> Send Notification </a></div>
-            </div>
-            <br />
-            <div class="card bg-warning text-white">
-                <div class="card-body"><a href="/ManageUsers"> Manage User</a></div>
-            </div>
-
-        }
-        else if (userRole == (int)UserRole.Author)  // Author
-        {
-            <div class="card bg-warning text-white">
-                <div class="card-body"> <a href="/SubmitPaper"> Submit paper</a></div>
-            </div>
-            <br />
-            <div class="card bg-warning text-white">
-                <div class="card-body"> <a href="/MyPapers"> My Papers</a></div>
-            </div>
-        }
-        else if (userRole == (int)UserRole.PCC)  // PCC
-        {
-            <div class="card bg-warning text-white">
-                <div class="card-body"><a href="/NotificationManager"> Send Notification </a></div>
-            </div>
-            <br />
-            <div class="card bg-warning text-white">
-                <div class="card-body"><a href="/Preferences"> Preferences </a></div>
-            </div>
-            <br />
-
-            <div class="card bg-warning text-white">
-                <div class="card-body"> <a href="/AssignPapers"> Assign paper</a></div>
-            </div>
-
-            <br />
-
-            <div class="card bg-warning text-white">
-                <div class="card-body"> <a href="/AddFinalReview"> Final paper review</a></div>
-            </div>
-
-        }
-        else if (userRole == (int)UserRole.PCM)  // PCM
-        {
-            <div class="card bg-warning text-white">
-                <div class="card-body"> <a href="/PreSelectPapers"> Select  paper</a></div>
-            </div>
-            <br />
-            <div class="card bg-warning text-white">
-                <div class="card-body"> <a href="/MyAssignedPapers"> Review  paper</a></div>
-            </div>
-        }
-
-
-    </div>
-  
- 
-
+<div class="container control-panel-container" style="display: flex; flex-wrap: wrap; max-width: 845px;">
+  @foreach (var option in menuOptions)
+  {
+    @if (userRole == admin | ((List<int>)option[3]).Contains(userRole))
+    {
+      <a href="@option[0]" style="margin: 20px; text-decoration: none;">
+        <div class="card" style="text-align: center; width: 163px; height: 206px;">
+          <div class="card-body" style="display: flex; flex-direction: column; align-items: center; justify-content: space-around;">
+            <img src="@((string)option[1])" alt="@((string)option[2])" style="max-height: 95px;">
+            <h5 style="margin-top: 15px; font-weight: bold;">@((string)option[2])</h5>
+          </div>
+        </div>
+      </a>
+    }
+  }
+</div>

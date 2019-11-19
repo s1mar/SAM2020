@@ -19,9 +19,15 @@ namespace SAM2020.Pages
 
         public async Task<IActionResult> OnGet() {
           string user = HttpContext.Session.GetString("userID");
+          int userRole = (int)HttpContext.Session.GetInt32("userRole");
 
           if (string.IsNullOrEmpty(user)) {
-            return RedirectToPage("/index");
+            return RedirectToPage(Routes.INDEX);
+          }
+
+          // If the user is not a AUTHOR, PCM and Admin redirect to the main menu
+          if (userRole != Roles.AUTHOR & userRole != Roles.PCM & userRole != Roles.ADMIN) {
+            return RedirectToPage(Routes.CONTROL_PANEL);
           }
 
           Papers papers = new Papers();

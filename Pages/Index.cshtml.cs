@@ -33,7 +33,7 @@ namespace SAM2020.Pages
             int userID = userManage.login(user.userEmail, user.password);
             if (userID == 0)
             {
-                return RedirectToPage("/index", new { id = 1 });
+                return RedirectToPage(Routes.INDEX, new { id = 1 });
             }
             else
             {
@@ -41,7 +41,7 @@ namespace SAM2020.Pages
                 HttpContext.Session.SetString("userName", user.getUserNameByID(userID.ToString()));
                 int userRole = userManage.getUserRole(userID.ToString());
                 HttpContext.Session.SetInt32("userRole", userRole);
-                return RedirectToPage("/ControlPanel", new { id = userID });
+                return RedirectToPage(Routes.CONTROL_PANEL, new { id = userID });
             }
 
            

@@ -75,10 +75,10 @@
                   <div class="form-group">
                     <label for="role">Role</label>
                     <select name="role">
-                      <option selected="@user.role.Equals(((int)UserRole.Admin).ToString())" value="@((int)UserRole.Admin)">Admin</option>
-                      <option selected="@user.role.Equals(((int)UserRole.Author).ToString())" value="@((int)UserRole.Author)">Author</option>
-                      <option selected="@user.role.Equals(((int)UserRole.PCC).ToString())" value="@((int)UserRole.PCC)">PCC</option>
-                      <option selected="@user.role.Equals(((int)UserRole.PCM).ToString())" value="@((int)UserRole.PCM)">PCM</option>
+                      <option selected="@user.role.Equals((Roles.ADMIN).ToString())" value="@(Roles.ADMIN)">Admin</option>
+                      <option selected="@user.role.Equals((Roles.AUTHOR).ToString())" value="@(Roles.AUTHOR)">Author</option>
+                      <option selected="@user.role.Equals((Roles.PCC).ToString())" value="@(Roles.PCC)">PCC</option>
+                      <option selected="@user.role.Equals((Roles.PCM).ToString())" value="@(Roles.PCM)">PCM</option>
                     </select>
                   </div>
                   <div class="form-group">

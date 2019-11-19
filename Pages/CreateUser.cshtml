@@ -29,9 +29,9 @@
     <div class="form-group">
       <label for="role" asp-validation-for="user.role" asp-for="user.role">Role</label>
       <select asp-for="user.role">
-        <option value="@((int)UserRole.Author)">Author</option>
-        <option value="@((int)UserRole.PCC)">PCC</option>
-        <option value="@((int)UserRole.PCM)">PCM</option>
+        <option value="@(Roles.AUTHOR)">Author</option>
+        <option value="@(Roles.PCC)">PCC</option>
+        <option value="@(Roles.PCM)">PCM</option>
       </select>
       <span asp-validation-for="user.role" class="text-danger"></span>
     </div>

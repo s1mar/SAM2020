@@ -124,7 +124,7 @@ namespace SAM2020.Models
               MySqlDataReader dataReader;
               SQLCommand.CommandText = "SELECT * from USER WHERE user_id=@userId AND role_id=@roleId";
               SQLCommand.Parameters.AddWithValue("@userId", userId);
-              SQLCommand.Parameters.AddWithValue("@roleId", UserRole.PCM);
+              SQLCommand.Parameters.AddWithValue("@roleId", Roles.PCM);
               dataReader = SQLCommand.ExecuteReader();
 
               try

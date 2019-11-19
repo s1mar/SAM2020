@@ -22,16 +22,16 @@ namespace SAM2020.Pages
 
           // If the user is not logged in
           if (string.IsNullOrEmpty(user)) {
-            return RedirectToPage("/index");
+            return RedirectToPage(Routes.INDEX);
           }
 
           // If the user is not a PCC or Admin, redirect to the main menu
-          if (userRole != (int)UserRole.PCC & userRole != (int)UserRole.Admin) {
-            return RedirectToPage("/controlpanel");
+          if (userRole != Roles.PCC & userRole != Roles.ADMIN) {
+            return RedirectToPage(Routes.CONTROL_PANEL);
           }
 
           Users users = new Users();
-          allPcms = users.getUsersByRole((int)UserRole.PCM);
+          allPcms = users.getUsersByRole(Roles.PCM);
 
           return null;
         }

@@ -32,12 +32,12 @@ namespace SAM2020.Pages
             int status = userManage.addNewUser(user.userEmail, user.password,user.name);
             if(status >0)
             {
-                return RedirectToPage("/index", new { id = 2 });
+                return RedirectToPage(Routes.INDEX, new { id = 2 });
                 
             }
             else
             {
-                return RedirectToPage("/Register", new { id = status });
+                return RedirectToPage(Routes.REGISTER, new { id = status });
             }
            
         }

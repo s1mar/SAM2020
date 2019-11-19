@@ -44,7 +44,7 @@ namespace SAM2020.Models
                 comm.Parameters.AddWithValue("@username", userEmail);
                 comm.Parameters.AddWithValue("@password", password);
                 comm.Parameters.AddWithValue("@name", name);
-                comm.Parameters.AddWithValue("@role_id",(int) UserRole.Author); // role author by default
+                comm.Parameters.AddWithValue("@role_id", Roles.AUTHOR); // role author by default
                 comm.ExecuteNonQuery();
                 conn.Close();
                 addedSuccess = 1;

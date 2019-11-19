@@ -22,7 +22,7 @@ namespace SAM2020.Pages
           }
 
           // If the user is not an Admin, redirect to the main menu
-          if (userRole != (int)UserRole.Admin) {
+          if (userRole != Roles.ADMIN) {
             return RedirectToPage(Routes.CONTROL_PANEL);
           }
 
@@ -61,8 +61,7 @@ namespace SAM2020.Pages
 
                 //Notify user his role has been Changed
                 Notification notificationManager = new Notification();
-                string roleNanme = Enum.GetName(typeof(UserRole), Convert.ToInt32(user.role));
-                int status = notificationManager.sendNotifiactionToOneUser("Your role has been updated by "+ HttpContext.Session.GetString("userName") +" to be an "+ roleNanme, user.id, Convert.ToInt32(HttpContext.Session.GetString("userID")));
+                int status = notificationManager.sendNotifiactionToOneUser("Your information was updated by the admin", user.id, Convert.ToInt32(HttpContext.Session.GetString("userID")));
                 return RedirectToPage(Routes.MANAGE_USERS, new { id = 4 });
 
           }

@@ -22,7 +22,7 @@ namespace SAM2020.Pages
           }
 
           // If the user is not an Admin, redirect to the main menu
-          if (userRole != (int)UserRole.Admin) {
+          if (userRole != Roles.ADMIN) {
             return RedirectToPage(Routes.CONTROL_PANEL);
           }
 
@@ -41,7 +41,7 @@ namespace SAM2020.Pages
             //update Paper Submission Deadline
             if (paperSubmission != preference.paperSubmission){
                
-                notificationManager.sendNotifiactionAll(" New Paper Submission Deadline is " + paperSubmission.ToString(), (int)UserRole.Author, userID);
+                notificationManager.sendNotifiactionAll(" New Paper Submission Deadline is " + paperSubmission.ToString(), Roles.AUTHOR, userID);
 
                 preference.paperSubmission = paperSubmission;
             }
@@ -51,7 +51,7 @@ namespace SAM2020.Pages
             //update Review Submission Deadline
             if (reviewSubmission != preference.reviewSubmission)
             {
-                notificationManager.sendNotifiactionAll(" New Review Submission Deadline is " + reviewSubmission.ToString(), (int)UserRole.PCM, userID);
+                notificationManager.sendNotifiactionAll(" New Review Submission Deadline is " + reviewSubmission.ToString(), Roles.PCM, userID);
                 preference.reviewSubmission = reviewSubmission;
             }
 
@@ -60,7 +60,7 @@ namespace SAM2020.Pages
             //update review Choice deadline
             if (reviewChoice != preference.reviewChoice)
             {
-                notificationManager.sendNotifiactionAll(" New review Choice Deadline is " + reviewChoice.ToString(), (int)UserRole.PCM, userID);
+                notificationManager.sendNotifiactionAll(" New review Choice Deadline is " + reviewChoice.ToString(), Roles.PCM, userID);
                 preference.reviewChoice = reviewChoice;
             }
 
@@ -69,13 +69,13 @@ namespace SAM2020.Pages
             //update author Notification deadline
             if (authorNotification != preference.authorNotification)
             {
-                notificationManager.sendNotifiactionAll(" New author Notification Deadline is " + authorNotification.ToString(), (int)UserRole.Author, userID);
+                notificationManager.sendNotifiactionAll(" New author Notification Deadline is " + authorNotification.ToString(), Roles.AUTHOR, userID);
                 preference.authorNotification = authorNotification;
             }
 
             int result = preference.updatePreferences();
 
-            return RedirectToPage("/Preferences", new { id = result });
+            return RedirectToPage(Routes.PREFERENCES, new { id = result });
         }
     }
 }

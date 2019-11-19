@@ -24,7 +24,7 @@ namespace SAM2020.Pages
             Notification notificationManager = new Notification();
             int  userID = Convert.ToInt32(HttpContext.Session.GetString("userID"));
             int status= notificationManager.sendNotifiactionAll(notification.message, Convert.ToInt32(notification.userRole), userID);
-            return RedirectToPage("/NotificationManager", new { id = status });
+            return RedirectToPage(Routes.NOTIFICATION_MANAGER, new { id = status });
         }
 
     }

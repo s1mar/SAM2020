@@ -7,7 +7,7 @@ using System.Data;
 
 namespace SAM2020.Models
 {
-  static class Routes
+  public class Routes
   {
     // Routes
     public const string INDEX = "/index";
@@ -18,5 +18,11 @@ namespace SAM2020.Models
     public const string MY_ASSIGNED_PAPERS = "/myassignedpapers";
     public const string MANAGE_USERS = "/manageusers";
     public const string ADD_FINAL_REVIEW = "/addfinalreview";
+    public const string NOTIFICATION_MANAGER = "/notificationmanager";
+    public const string PRE_SELECT_PAPERS = "/preselectpapers";
+    public const string SUBMIT_PAPER = "/submitpaper";
+    public const string PREFERENCES = "/preferences";
+    public const string CREATE_USER = "/createuser";
+    public const string REGISTER = "/register";
   }
 }

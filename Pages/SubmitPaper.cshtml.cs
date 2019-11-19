@@ -21,9 +21,15 @@ namespace SAM2020.Pages
         public IFormFile File { set; get; }
         public async Task<IActionResult> OnGet() {
           string user = HttpContext.Session.GetString("userID");
+          int userRole = (int)HttpContext.Session.GetInt32("userRole");
 
           if (string.IsNullOrEmpty(user)) {
-            return RedirectToPage("/index");
+            return RedirectToPage(Routes.INDEX);
+          }
+
+          // If the user is not a PCM or Admin, redirect to the main menu
+          if (userRole != Roles.AUTHOR & userRole != Roles.PCM & userRole != Roles.ADMIN) {
+            return RedirectToPage(Routes.CONTROL_PANEL);
           }
 
           return null;
@@ -59,13 +65,13 @@ namespace SAM2020.Pages
 
                 Notification notificationManager = new Notification();
                 //Notify PCC new paper has been submitted
-                notificationManager.sendNotifiactionAll(" New Paper Submitted by " + HttpContext.Session.GetString("userEmail"), (int)UserRole.PCC, userID);
+                notificationManager.sendNotifiactionAll(" New Paper Submitted by " + HttpContext.Session.GetString("userEmail"), Roles.PCC, userID);
                 //Notify Author his paper has been submitted
                 notificationManager.sendNotifiactionToOneUser("Your paper has been submitted successfully", userID, userID);
-                return RedirectToPage("/SubmitPaper", new { id = 1 }); 
+                return RedirectToPage(Routes.SUBMIT_PAPER, new { id = 1 }); 
             }
 
-            return RedirectToPage("/SubmitPaper", new { id = 2 }); 
+            return RedirectToPage(Routes.SUBMIT_PAPER, new { id = 2 }); 
         }
     }
 }
