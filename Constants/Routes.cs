@@ -10,7 +10,7 @@ namespace SAM2020.Models
   public class Routes
   {
     // Routes
-    public const string INDEX = "/index";
+    public const string INDEX = "/Login";
     public const string ASSIGN_PAPER_DETAIL = "/assignpapersdetail";
     public const string CONTROL_PANEL = "/controlpanel";
     public const string ASSIGN_PAPERS = "/assignpapers";
@@ -24,5 +24,6 @@ namespace SAM2020.Models
     public const string PREFERENCES = "/preferences";
     public const string CREATE_USER = "/createuser";
     public const string REGISTER = "/register";
-  }
+    public const string REPORT = "/report";
+    }
 }

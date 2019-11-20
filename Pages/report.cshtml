@@ -1,0 +1,29 @@
+﻿@page
+@model SAM2020.Pages.reportModel
+@{
+    ViewData["Title"] = "report";
+
+    Reports reports = new Reports();
+}
+
+<h1>Report</h1>
+
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th>Total number of submitted papers</th>
+            <th>@reports.getTotalSubmittedPapers()</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Total number of reviwed papers</th>
+            <th>@reports.getTotalReviewedPapers()</th>
+        </tr>
+        <tr>
+            <th>Total number of not reviwed papers</th>
+            <th>@reports.getTotalNotReviewedPapers()</th>
+        </tr>
+ 
+    </tbody>
+</table>
