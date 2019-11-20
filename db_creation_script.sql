@@ -104,27 +104,17 @@ CREATE TABLE `sam2020`.`preselection` (
 describe preselection;
 
 CREATE TABLE `sam2020`.`review` (
-  `review_id` INT NOT NULL AUTO_INCREMENT,
-  `paper_id` INT NOT NULL,
-  `reviewer_id` INT NOT NULL,
-  `paper_reference_name` VARCHAR(500) NULL,
-  `text` VARCHAR(500) NULL,
-  `createdDate` DATETIME NOT NULL,
-  `editedDate` DATETIME NULL,
+  `review_id` int(11) NOT NULL AUTO_INCREMENT,
+  `paper_id` int(11) NOT NULL,
+  `reviewer_id` int(11) NOT NULL,
+  `paper_reference_name` varchar(500) DEFAULT NULL,
+  `text` varchar(500) DEFAULT NULL,
+  `created_date` datetime NOT NULL,
+  `edited_date` datetime DEFAULT NULL,
   PRIMARY KEY (`review_id`),
-  INDEX `review_paper_idx` (`paper_id` ASC) VISIBLE,
-  INDEX `reviewer_review_idx` (`reviewer_id` ASC) VISIBLE,
-  CONSTRAINT `review_paper`
-    FOREIGN KEY (`paper_id`)
-    REFERENCES `sam2020`.`paper` (`paper_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `reviewer_review`
-    FOREIGN KEY (`reviewer_id`)
-    REFERENCES `sam2020`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
-);
+  KEY `review_reviewer_idx` (`reviewer_id`),
+  CONSTRAINT `review_reviewer` FOREIGN KEY (`reviewer_id`) REFERENCES `user` (`user_id`)
+) ;
 
 describe review;
 -- END Create Tables
