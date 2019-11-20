@@ -22,7 +22,7 @@ namespace SAM2020.Pages
 
           // If the user is not logged in
           if (string.IsNullOrEmpty(user)) {
-            return RedirectToPage(Routes.INDEX);
+            return RedirectToPage(Routes.LOGIN);
           }
 
           // If the user is not a PCC or Admin, redirect to the main menu

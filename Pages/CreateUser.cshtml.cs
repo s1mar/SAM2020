@@ -27,7 +27,7 @@ namespace SAM2020.Pages
           int userRole = (int)HttpContext.Session.GetInt32("userRole");
 
           if (string.IsNullOrEmpty(user)) {
-            return RedirectToPage(Routes.INDEX);
+            return RedirectToPage(Routes.LOGIN);
           }
 
           // If the user is not an Admin, redirect to the main menu

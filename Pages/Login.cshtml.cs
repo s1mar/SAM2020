@@ -33,7 +33,7 @@ namespace SAM2020.Pages
             int userID = userManage.login(user.userEmail, user.password);
             if (userID == 0)
             {
-                return RedirectToPage(Routes.INDEX, new { id = 1 });
+                return RedirectToPage(Routes.LOGIN, new { id = 1 });
             }
             else
             {

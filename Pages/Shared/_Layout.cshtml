@@ -62,13 +62,13 @@
                             }
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-page="/Index"> Logout( @userName)</a>
+                                <a class="nav-link text-dark" asp-page="@Routes.LOGIN"> Logout( @userName)</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Login</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="@Routes.LOGIN">Login</a>
                             </li>
                         }
 
