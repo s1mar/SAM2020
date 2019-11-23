@@ -40,8 +40,9 @@ namespace SAM2020.Pages
                 HttpContext.Session.SetString("userID", userID.ToString());
                 HttpContext.Session.SetString("userName", user.getUserNameByID(userID.ToString()));
                 int userRole = userManage.getUserRole(userID.ToString());
-                HttpContext.Session.SetInt32("userRole", userRole);
-                return RedirectToPage(Routes.CONTROL_PANEL, new { id = userID });
+                HttpContext.Session.SetString("userRole", userRole.ToString());
+
+                return RedirectToPage(Routes.CONTROL_PANEL);
             }
 
            

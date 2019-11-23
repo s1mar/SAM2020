@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SAM2020.Models;
 using Microsoft.AspNetCore.Http;
+
 namespace SAM2020.Pages
 {
     public class NotificationManagerModel : PageModel
@@ -14,9 +15,20 @@ namespace SAM2020.Pages
         [BindProperty]
         public Notification notification { get; set; }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGet() 
         {
+          string user = HttpContext.Session.GetString("userID");
 
+          if (string.IsNullOrEmpty(user)) {
+            return RedirectToPage(Routes.LOGIN);
+          }
+
+          int userRole = -1;
+          if (!string.IsNullOrEmpty(HttpContext.Session.GetString("userRole"))) {
+            userRole = Convert.ToInt32(HttpContext.Session.GetString("userRole"));
+          }
+
+          return null;
         }
 
         public async Task<IActionResult> OnPostAsync()

@@ -20,11 +20,15 @@ namespace SAM2020.Pages
         
         public async Task<IActionResult> OnGet() {
           string user = HttpContext.Session.GetString("userID");
-          int userRole = (int)HttpContext.Session.GetInt32("userRole");
 
           // If the user is not logged in
           if (string.IsNullOrEmpty(user)) {
             return RedirectToPage(Routes.LOGIN);
+          }
+
+          int userRole = -1;
+          if (!string.IsNullOrEmpty(HttpContext.Session.GetString("userRole"))) {
+            userRole = Convert.ToInt32(HttpContext.Session.GetString("userRole"));
           }
 
           // If the user is not a PCM or Admin, redirect to the main menu

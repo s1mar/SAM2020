@@ -2,7 +2,12 @@
 @model SAM2020.Pages.ControlPanelModel
 @{
     ViewData["Title"] = "ControlPanel";
-    int userRole = (int)HttpContext.Session.GetInt32("userRole");
+    int userRole = -1;
+
+    if (!string.IsNullOrEmpty(HttpContext.Session.GetString("userRole"))) {
+      userRole = Convert.ToInt32(HttpContext.Session.GetString("userRole"));
+    }
+
     int admin = Roles.ADMIN;
     int pcc = Roles.PCC;
     int pcm = Roles.PCM;
