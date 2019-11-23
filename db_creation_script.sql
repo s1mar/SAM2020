@@ -65,10 +65,10 @@ CREATE TABLE `sam2020`.`notification` (
   PRIMARY KEY (`notification_id`),
   KEY `sender_user_id_idx` (`senderId`),
   CONSTRAINT `sender_user_id` FOREIGN KEY (`senderId`) REFERENCES `user` (`user_id`)
-) ;
+);
+
 describe notification;
  
-
 CREATE TABLE `sam2020`.`notification_recipients` (
   `notification_sender_id` int(11) NOT NULL AUTO_INCREMENT,
   `notification_id` int(11) NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE `sam2020`.`notification_recipients` (
   KEY `notification_message_id` (`notification_id`),
   CONSTRAINT `notification_message_id` FOREIGN KEY (`notification_id`) REFERENCES `notification` (`notification_id`),
   CONSTRAINT `notification_recipient_id` FOREIGN KEY (`recipient_id`) REFERENCES `user` (`user_id`)
-) ;
+);
 
 describe notification_recipients;
 

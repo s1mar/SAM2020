@@ -9,10 +9,14 @@ namespace SAM2020.Models
     {
         public string message;
         public string notificationSenderID;
-        public UserNotificationObj(string message, string notificationSenderID)
+        public int isRead;
+        public DateTime creationDate;
+        public UserNotificationObj(string message, string notificationSenderID, int isRead, DateTime creationDate)
         {
             this.message = message;
             this.notificationSenderID = notificationSenderID;
+            this.isRead = isRead;
+            this.creationDate = creationDate;
         }
     }
 }

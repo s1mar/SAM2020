@@ -57,11 +57,9 @@ namespace SAM2020.Models
                 return 0; // record didnot inserted
             }
 
-
             // send notifiaction to all subscribers
             foreach( String userID in usersList)
             {
-
                 try
                 {
                     MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
@@ -81,13 +79,8 @@ namespace SAM2020.Models
 
             }
 
-
             return status;
-
-
         }
-
-
 
         /*
          * 
@@ -127,9 +120,7 @@ namespace SAM2020.Models
                 return 0; // record didnot inserted
             }
 
-
             // send notifiaction to all subscribers
-           
                 try
                 {
                     MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
@@ -147,21 +138,13 @@ namespace SAM2020.Models
                     string msg = e.Message;
                 }
 
-            
-
-
             return status;
-
-
         }
-
 
         // get number of not readed notifiactions
         public int getMyNotifiactionCount(int userID)
         {
             int countNotify = 0;
-
-
 
             try
             {
@@ -181,9 +164,7 @@ namespace SAM2020.Models
             return countNotify;
         }
 
-
         // get not readed notifiaction details
- 
         public List<UserNotificationObj> getMyNotifiactionDetails(int userID)
         {
             List<UserNotificationObj> userNotificationsList = new List<UserNotificationObj>();
@@ -194,7 +175,11 @@ namespace SAM2020.Models
                 DBconnection.Open();
                 MySqlCommand SQLCommand = DBconnection.CreateCommand();
                 MySqlDataReader dataReader;
-                SQLCommand.CommandText = "select  message, notification_sender_id from notification inner join notification_recipients nr on notification.notification_id = nr.notification_id where isRead=0 and recipient_id=@recipient_id";
+                SQLCommand.CommandText = @"
+                  SELECT message, notification_sender_id, isRead, createdDate
+                  FROM notification inner join notification_recipients nr on notification.notification_id = nr.notification_id
+                  WHERE recipient_id=@recipient_id
+                  ORDER BY createdDate DESC";
                 SQLCommand.Parameters.AddWithValue("@recipient_id", userID);
                 dataReader = SQLCommand.ExecuteReader();
 
@@ -202,7 +187,7 @@ namespace SAM2020.Models
                 {
                     while (dataReader.Read())
                     {
-                        userNotificationsList.Add( new UserNotificationObj(dataReader.GetString(0), dataReader.GetString(1)));
+                        userNotificationsList.Add(new UserNotificationObj(dataReader.GetString(0), dataReader.GetString(1), dataReader.GetInt32(2), dataReader.GetDateTime(3)));
                     }
                 }
                 finally
@@ -219,14 +204,10 @@ namespace SAM2020.Models
             return userNotificationsList;
         }
 
-
         // mark readed notifiaction as readed
-
         public void notifiactionISReadedBy(int mnotificationSenderIDReadm, int userID)
         {
-            
             // send notifiaction to all subscribers
-
             try
             {
                 MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
@@ -243,11 +224,6 @@ namespace SAM2020.Models
             {
                 string msg = e.Message;
             }
-
- 
-
         }
-
-
     }
 }

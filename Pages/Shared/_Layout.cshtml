@@ -30,54 +30,46 @@
             <div class="container">
                 @if (userID != 0)
                 {
-                    <a class="navbar-brand" asp-area="" asp-page="/ControlPanel">SAM2020</a>
+                    <a class="navbar-brand" asp-area="" asp-page="@Routes.CONTROL_PANEL">SAM2020</a>
                 }
                 else
                 {
-                    <a class="navbar-brand" asp-area="" asp-page="/Index">SAM2020</a>
+                    <a class="navbar-brand" asp-area="" asp-page="@Routes.LOGIN">SAM2020</a>
                 }
-
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             @if (userID != 0)
                             {
-                            
-
-                            @if (myTotalNotifications > 0)
-                            {
-
-                                <li class="nav-item">
-                                     <a class="nav-link text-dark" asp-page="/MyNotifications">Notifications <span class="badge" style="background-color:red">(@myTotalNotifications)</span></a>
-                                    
-                                </li>
-
-
-
+                              <li class="nav-item">
+                                  <a class="nav-link text-dark" asp-page="@Routes.LOGIN">Logout(@userName)</a>
+                              </li>
+                              <span class="notification-divider">|</span>
+                              <li class="nav-item notifications">
+                                <a class="nav-link text-dark" asp-page="/MyNotifications">
+                                  <span class="desktop" style="position: relative;">
+                                    <img class="notification-icon" src="/img/bell.png" alt="Notifications" style="max-height: 25px;">
+                                    @if (myTotalNotifications > 0) {
+                                      <span class="badge notification-badge">@myTotalNotifications</span>
+                                    }
+                                  </span>
+                                  <span class="mobile">
+                                    Notifications <span class="badge notification-badge">@myTotalNotifications
+                                  </span>
+                                </a>      
+                              </li>
                             }
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-page="@Routes.LOGIN"> Logout( @userName)</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="@Routes.LOGIN">Login</a>
-                            </li>
-                        }
-
-
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="@Routes.LOGIN">Login</a>
+                                </li>
+                            }
                         </ul>
-
-
-
-
                 </div>
             </div>
         </nav>

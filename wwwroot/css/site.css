@@ -75,8 +75,48 @@ body {
   justify-content: space-evenly;
 }
 
+.notification-badge {
+  background-color: red;
+  height: 18px;
+  text-align: center;
+  width: 18px;
+}
+
+.notifications .desktop {
+  display: none;
+}
+
+.notification-divider {
+  display: none;
+  flex-direction: column;
+  font-size: 24px;
+  justify-content: center;
+  margin: auto 15px auto 7px;
+  max-height: 30px;
+}
+
 @media (min-width: 768px) {
   .control-panel-container {
     justify-content: flex-start;
+  }
+
+  .notification-badge {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    right: -10px;
+    top: 5px;
+  }
+
+  .notifications .mobile {
+    display: none;
+  }
+
+  .notification-divider {
+    display: flex;
+  }
+
+  .notifications .desktop {
+    display: initial;
   }
 }

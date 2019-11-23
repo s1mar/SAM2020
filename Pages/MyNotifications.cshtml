@@ -6,9 +6,7 @@
     var notificationSenderIDRead = RouteData.Values["id"] is null ? -99 : Convert.ToInt32(RouteData.Values["id"].ToString());
     int userID = Convert.ToInt32(HttpContext.Session.GetString("userID"));
 
-
     Notification notificationManager = new Notification();
-
 
     // mark readed notifiaction
     if(notificationSenderIDRead > 0)
@@ -16,19 +14,26 @@
         notificationManager.notifiactionISReadedBy(notificationSenderIDRead, userID);
     }
 
-
-    // load unreaded notifiactions
-
+    // load notifiactions
     List<UserNotificationObj> userNotificationsList = notificationManager.getMyNotifiactionDetails(userID);
 }
 
-<h3>MyNotifications</h3>
+<h3>My Notifications</h3>
 @foreach (UserNotificationObj userNotification in userNotificationsList)
 {
-
+  @if (userNotification.isRead == 0) {
     <div class="alert alert-info">
-        <strong>Info!</strong> @userNotification.message <a href="/MyNotifications/@userNotification.notificationSenderID"> mark as read</a>
+        <div>
+          <div><b>@userNotification.creationDate</b></div>
+          @userNotification.message
+        </div>
+        <a href="/MyNotifications/@userNotification.notificationSenderID">Mark as read</a>
     </div>
-
+  } else {
+    <div class="alert alert-secondary">
+      <div><b>@userNotification.creationDate</b></div>
+      @userNotification.message
+    </div>
+  }
 }
 
