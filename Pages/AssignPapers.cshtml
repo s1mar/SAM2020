@@ -1,7 +1,7 @@
 ﻿@page "{id?}"
 @model SAM2020.Pages.AssignPapersModel
 @{
-    ViewData["Title"] = "Submit Paper";
+    ViewData["Title"] = "Assign Papers";
     List<Paper> preselectedObjects = new List<Paper>();
     var id = RouteData.Values["id"] is null ? -99 : long.Parse(RouteData.Values["id"].ToString());
     int userId = Int32.Parse(HttpContext.Session.GetString("userID"));
@@ -9,7 +9,6 @@
     
 }
 
-<h1>Assing Papers for review</h1>
 @if (id == 1)
 {
     <div class="alert alert-success">
@@ -27,6 +26,7 @@
     </div>
 }
 
+<h1>Assign Papers for review</h1>
 <div>
   <table class="table">
     <thead>
@@ -45,7 +45,7 @@
           <td>@user.name</td>
           <td>@user.userEmail</td>
           <td>
-            <a href="@String.Concat(BASE_URL, user.id)" class="card-link">Assing Papers</a>
+            <a href="@String.Concat(BASE_URL, user.id)" class="card-link">Assign Papers</a>
           </td>
         </tr>
       }

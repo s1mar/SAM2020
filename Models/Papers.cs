@@ -123,7 +123,7 @@ namespace SAM2020.Models
               MySqlCommand SQLCommand = DBconnection.CreateCommand();
               MySqlDataReader dataReader;
               SQLCommand.CommandText = @"
-              SELECT p.paper_id, p.reference_name, p.title, p.co_authors, p.topic, p.author_id, p.version, p.file_reference, p.submission_date, p.status, u.username
+              SELECT p.paper_id, p.reference_name, p.title, p.co_authors, p.topic, p.author_id, p.version, p.file_reference, p.submission_date, p.status, u.name
               FROM paper p, user u
               WHERE p.author_id = u.user_id
               ORDER BY p.version DESC";

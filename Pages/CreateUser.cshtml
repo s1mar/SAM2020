@@ -41,8 +41,8 @@
       <span asp-validation-for="user.password" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-success">Create</button>
-    <a type="button" href="/manageusers">
-      <button class="btn btn-success">Cancel</button>
+    <a asp-area="" asp-page="@Routes.INDEX">
+      <button type="button" class="btn btn-secondary">Cancel</button>
     </a>
   </form>
 </div>

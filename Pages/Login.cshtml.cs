@@ -24,7 +24,7 @@ namespace SAM2020.Pages
         {
             User userManage = new User();
             int userID = userManage.login(user.userEmail, user.password);
-            if (userID == 0)
+            if (userID == -1)
             {
                 return RedirectToPage(Routes.LOGIN, new { id = 0 });
             }

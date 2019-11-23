@@ -70,15 +70,14 @@ namespace SAM2020.Pages
             int result = reviews.createReviews(selectedUserId, selectedPapers);
 
             if (result == -1) {
-      
                 return RedirectToPage(Routes.ASSIGN_PAPER_DETAIL, new { id = 2, userId = selectedUserId });
-            }else if (result != -1){
+            } else if (result != -1) {
                 //Notify Author he has paper to review
                 Notification notificationManager = new Notification();
                 int status = notificationManager.sendNotifiactionToOneUser("You have New assigned <a href=\"/MyAssignedPapers\">paper</a> to review", selectedUserId, Convert.ToInt32(HttpContext.Session.GetString("userID")));
 
             }
-            // TODO: Create some constants files 
+
             return RedirectToPage(Routes.ASSIGN_PAPER_DETAIL, new { id = 1, userId = selectedUserId });
         }
     }

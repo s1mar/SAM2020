@@ -1,13 +1,12 @@
 ﻿@page "{id?}"
 @model SAM2020.Pages.AssignPapersDetailModel
 @{
-    ViewData["Title"] = "Submit Paper";
+    ViewData["Title"] = "Assign Papers";
     List<Paper> assignedObjects = new List<Paper>();
     var id = RouteData.Values["id"] is null ? -99 : long.Parse(RouteData.Values["id"].ToString());
 
 }
 
-<h1>Pre Select Papers</h1>
 @if (id == 1)
 {
     <div class="alert alert-success">
@@ -24,12 +23,13 @@
         <strong>Please select at least one paper.
     </div>
 }
+<h1 style="text-align: center;">Assign Papers for review</h1>
 <div class="row">
-  <div class="col-6">
+  <div class="col-12 col-md-6">
     <h2>Available Papers</h2>
     <form method="post">
       <table class="table">
-      <thead>
+      <thead class="thead-light">
         <tr>
           <th scope="col">Paper Information</th>
           <th scope="col">Select</th>
@@ -45,27 +45,40 @@
                 <div>
                   <h5 class="card-title">@paper.title</h5>
                   <p class="card-text"><b>Author:</b> @paper.authorName</p>
-                  @if (@Model.userPreselection.Contains(@paper.id))
-                  {
-                    <span>PRE-SELECTED PAPER BY THE USER</span>
-                  }
                 </div>
               </td>
-              <td>
+              <td style="position: relative;">
                 <input type="checkbox" name="CheckedPapers" value="@paper.referenceName">
+                @if (@Model.userPreselection.Contains(@paper.id))
+                {
+                  <span>
+                    <img
+                      data-toggle="tooltip"
+                      data-placement="right"
+                      title="Preselected paper"
+                      src="/img/star.png"
+                      alt="Preselected"
+                      style="max-height: 22px; position: absolute; top: 5px; right: 0;">
+                  </span>
+                }
               </td>
             </tr>
           }
         }
       </tbody>
       </table>
-      <button type="submit" class="btn btn-success">Assign</button>
+      <div style="margin-bottom: 15px;">
+        <button type="submit" class="btn btn-primary">Assign</button>
+        <a asp-area="" asp-page="@Routes.INDEX">
+          <button asp-page="@Routes.INDEX" type="button" class="btn btn-secondary">Cancel</button>
+        </a>
+      </div>
     </form>
   </div>
-  <div class="col-6">
+  <div class="col-12 col-md-6">
     <h2>Assigned Papers</h2>
       <table class="table">
-      <thead>
+      <thead class="thead-light">
         <tr>
           <th scope="col">Paper Information</th>
         </tr>
@@ -77,7 +90,6 @@
           <td>
             <div>
                 <h5 class="card-title">@paper.title</h5>
-                <!-- TODO: Use author name -->
                 <p class="card-text"><b>Author:</b> @paper.authorName</p>
             </div>
           </td>
@@ -87,3 +99,9 @@
       </table>
   </div>
 </div>
+
+<script>
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
