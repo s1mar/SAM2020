@@ -12,7 +12,7 @@ namespace SAM2020.Models
     // Routes
     public const string LOGIN = "/Login";
     public const string ASSIGN_PAPER_DETAIL = "/assignpapersdetail";
-    public const string CONTROL_PANEL = "/controlpanel";
+    public const string INDEX = "/Index";
     public const string ASSIGN_PAPERS = "/assignpapers";
     public const string MY_PAPERS = "/mypapers";
     public const string MY_ASSIGNED_PAPERS = "/myassignedpapers";

@@ -1,19 +1,15 @@
 ﻿@page "{id?}"
-@model IndexModel
+@model SAM2020.Pages.LoginModel
+
 @{
     ViewData["Title"] = "Login";
     var id = RouteData.Values["id"] is null ? -99 : Int32.Parse(RouteData.Values["id"].ToString());
 }
 
-@if (id == 1)
+@if (id == 0)
 {
     <div class="alert alert-danger">
         <strong>Error!</strong>Incorrect email or password.
-    </div>
-} else if (id == 2)
-{
-    <div class="alert alert-success">
-        User sucessfully created.
     </div>
 }
 

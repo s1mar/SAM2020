@@ -32,7 +32,7 @@ namespace SAM2020.Pages
 
           // If the user is not a PCM or Admin, redirect to the main menu
           if (userRole != Roles.PCM & userRole != Roles.ADMIN) {
-            return RedirectToPage(Routes.CONTROL_PANEL);
+            return RedirectToPage(Routes.INDEX);
           }
 
           Reviews reviews = new Reviews();

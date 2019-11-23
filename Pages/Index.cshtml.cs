@@ -9,7 +9,7 @@ using SAM2020.Models;
 
 namespace SAM2020.Pages
 {
-    public class ControlPanelModel : PageModel
+    public class IndexModel : PageModel
     {
         public async Task<IActionResult> OnGet()
         {

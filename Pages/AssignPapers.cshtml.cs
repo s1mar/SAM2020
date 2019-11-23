@@ -31,7 +31,7 @@ namespace SAM2020.Pages
 
           // If the user is not a PCC or Admin, redirect to the main menu
           if (userRole != Roles.PCC & userRole != Roles.ADMIN) {
-            return RedirectToPage(Routes.CONTROL_PANEL);
+            return RedirectToPage(Routes.INDEX);
           }
 
           Users users = new Users();

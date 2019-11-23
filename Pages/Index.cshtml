@@ -1,7 +1,7 @@
 ﻿@page
-@model SAM2020.Pages.ControlPanelModel
+@model SAM2020.Pages.IndexModel
 @{
-    ViewData["Title"] = "ControlPanel";
+    ViewData["Title"] = "Homepage";
     int userRole = -1;
 
     if (!string.IsNullOrEmpty(HttpContext.Session.GetString("userRole"))) {

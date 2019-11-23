@@ -36,7 +36,7 @@ namespace SAM2020.Pages
 
           // If the user is not an Admin, redirect to the main menu
           if (userRole != Roles.ADMIN) {
-            return RedirectToPage(Routes.CONTROL_PANEL);
+            return RedirectToPage(Routes.INDEX);
           }
 
           return null;

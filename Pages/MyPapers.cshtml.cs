@@ -31,7 +31,7 @@ namespace SAM2020.Pages
 
           // If the user is not a AUTHOR, PCM and Admin redirect to the main menu
           if (userRole != Roles.AUTHOR & userRole != Roles.PCM & userRole != Roles.ADMIN) {
-            return RedirectToPage(Routes.CONTROL_PANEL);
+            return RedirectToPage(Routes.INDEX);
           }
 
           Papers papers = new Papers();

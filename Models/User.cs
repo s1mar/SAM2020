@@ -59,9 +59,7 @@ namespace SAM2020.Models
 
         public int login(String userEmail, String password)
         {
-            int userID = 0;
-
-         
+            int userID = -1;
 
             try
             {

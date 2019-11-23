@@ -27,15 +27,6 @@ namespace SAM2020
             services.AddSession();
             services.AddMemoryCache();
             services.AddMvc();
-
-            #region Setting Landing page
-            //This is how a landing page is added
-            services.AddMvc().AddRazorPagesOptions(options =>
-            {
-                options.Conventions.AddPageRoute("/Login", "");
-            });
-            #endregion
-
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });

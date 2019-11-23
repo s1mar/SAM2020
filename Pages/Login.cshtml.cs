@@ -7,25 +7,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using SAM2020.Models;
+
 namespace SAM2020.Pages
 {
-    public class IndexModel : PageModel
+    public class LoginModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-
         [BindProperty]
         public User user { get; set; }
-
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
 
         public void OnGet()
         {
             HttpContext.Session.Clear();
         }
-
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -33,7 +26,7 @@ namespace SAM2020.Pages
             int userID = userManage.login(user.userEmail, user.password);
             if (userID == 0)
             {
-                return RedirectToPage(Routes.LOGIN, new { id = 1 });
+                return RedirectToPage(Routes.LOGIN, new { id = 0 });
             }
             else
             {
@@ -42,7 +35,7 @@ namespace SAM2020.Pages
                 int userRole = userManage.getUserRole(userID.ToString());
                 HttpContext.Session.SetString("userRole", userRole.ToString());
 
-                return RedirectToPage(Routes.CONTROL_PANEL);
+                return RedirectToPage(Routes.INDEX);
             }
 
            
