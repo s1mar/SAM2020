@@ -5,92 +5,106 @@
     List<Paper> preselectedObjects = new List<Paper>();
     var id = RouteData.Values["id"] is null ? -99 : long.Parse(RouteData.Values["id"].ToString());
     int userId = Int32.Parse(HttpContext.Session.GetString("userID"));
+
+    Preference preferences = new Preference();
+    preferences.getPreferences();
+    var dateComparison = DateTime.Compare(preferences.reviewChoice, DateTime.Now);
+    var isValidDate = dateComparison >= 0;
     
 }
 
-@if (id == 1)
+<h1 style="text-align: center;">Pre Select Papers</h1>
+@if (isValidDate)
 {
-    <div class="alert alert-success">
-        <strong>Your preselection has been recorded.
-    </div>
-}else if (id == 2)
-{
-    <div class="alert alert-warning">
-        <strong>Sorry, there was something wrong saving your selection.
-    </div>
-} else if (id == 3)
-{
-    <div class="alert alert-info">
-        <strong>Please select at least one paper.
-    </div>
-}
-<h1 style="tesxt-align: center;">Pre Select Papers</h1>
-<div class="row">
-  <div class="col-12 col-md-6">
-    <h2>Available Papers</h2>
-    <form method="post">
-      <table class="table">
-      <thead class="thead-light">
-        <tr>
-          <th scope="col">Paper Information</th>
-          <th scope="col">Select</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach (var paper in @Model.allPapers)
-        {
-          @if(@paper.author != userId)
+  @if (id == 1)
+  {
+      <div class="alert alert-success">
+          <strong>Your preselection has been recorded.
+      </div>
+  }else if (id == 2)
+  {
+      <div class="alert alert-warning">
+          <strong>Sorry, there was something wrong saving your selection.
+      </div>
+  } else if (id == 3)
+  {
+      <div class="alert alert-info">
+          <strong>Please select at least one paper.
+      </div>
+  }
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <h2>Available Papers</h2>
+      <form method="post">
+        <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Paper Information</th>
+            <th scope="col">Select</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var paper in @Model.allPapers)
           {
-            @if (@Model.userPreselection.Contains(@paper.id))
+            @if(@paper.author != userId)
             {
-              preselectedObjects.Add(paper);
-            }
-            else {
-            <tr>
-              <td>
-                <div>
-                  <h5 class="card-title">@paper.title</h5>
-                  <p class="card-text"><b>Author:</b> @paper.authorName</p>
-                </div>
-              </td>
-              <td>
-                <input type="checkbox" name="CheckedPapers" value="@paper.id">
-              </td>
-            </tr>
+              @if (@Model.userPreselection.Contains(@paper.id))
+              {
+                preselectedObjects.Add(paper);
+              }
+              else {
+              <tr>
+                <td>
+                  <div>
+                    <h5 class="card-title">@paper.title</h5>
+                    <p class="card-text"><b>Author:</b> @paper.authorName</p>
+                  </div>
+                </td>
+                <td>
+                  <input type="checkbox" name="CheckedPapers" value="@paper.id">
+                </td>
+              </tr>
+              }
             }
           }
-        }
-      </tbody>
-      </table>
-      <div style="margin-bottom: 15px;">
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <a asp-area="" asp-page="@Routes.INDEX">
-          <button asp-page="@Routes.INDEX" type="button" class="btn btn-secondary">Cancel</button>
-        </a>
-      </div>
-    </form>
+        </tbody>
+        </table>
+        <div style="margin-bottom: 15px;">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <a asp-area="" asp-page="@Routes.INDEX">
+            <button asp-page="@Routes.INDEX" type="button" class="btn btn-secondary">Cancel</button>
+          </a>
+        </div>
+      </form>
+    </div>
+    <div class="col-12 col-md-6">
+      <h2>Your Selection</h2>
+        <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Paper Information</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var paper in preselectedObjects)
+          {
+          <tr>
+            <td>
+              <div>
+                  <h5 class="card-title">@paper.title</h5>
+                  <p class="card-text"><b>Author:</b> @paper.authorName</p>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+        </table>
+    </div>
   </div>
-  <div class="col-12 col-md-6">
-    <h2>Your Selection</h2>
-      <table class="table">
-      <thead class="thead-light">
-        <tr>
-          <th scope="col">Paper Information</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach (var paper in preselectedObjects)
-        {
-        <tr>
-          <td>
-            <div>
-                <h5 class="card-title">@paper.title</h5>
-                <p class="card-text"><b>Author:</b> @paper.authorName</p>
-            </div>
-          </td>
-        </tr>
-        }
-      </tbody>
-      </table>
+}
+else
+{
+  <div class="alert alert-warning" role="alert">
+    Sorry, the review choice date has expired.
   </div>
-</div>
+}

@@ -3,45 +3,59 @@
 @{
     ViewData["Title"] = "Submit Paper";
     var id = RouteData.Values["id"] is null ? -99 : long.Parse(RouteData.Values["id"].ToString());
+   
+    Preference preferences = new Preference();
+    preferences.getPreferences();
+    var dateComparison = DateTime.Compare(preferences.paperSubmission, DateTime.Now);
+    var isValidDate = dateComparison >= 0;
 }
 
 <div>
   <h1>Submit a new paper</h1>
-  @if (id == 1)
+  @if (isValidDate)
   {
-    <div class="alert alert-success">
-      Paper sucessfully submitted!.
+    @if (id == 1)
+    {
+      <div class="alert alert-success">
+        Paper sucessfully submitted!.
+      </div>
+    }
+    @if (id == 2)
+    {
+      <div class="alert alert-danger">
+        There was an error submitting your paper, please try again.
+      </div>
+    }
+    <form method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label asp-for="paper.title">Paper title</label>
+        <input asp-for="paper.title" class="form-control">
+        <span asp-validation-for="paper.title" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="paper.topic">Paper Topic</label>
+        <input asp-for="paper.topic" class="form-control">
+        <span asp-validation-for="paper.topic" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="File">Paper File</label>
+        <input type="file" asp-for="File" class="form-control" accept="application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+        <span asp-validation-for="File" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="paper.coAuthors">Paper Co-Authors</label>
+        <input asp-for="paper.coAuthors" class="form-control">
+        <span asp-validation-for="paper.coAuthors" class="text-danger"></span>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </div>
+    </form>
+  }
+  else
+  {
+    <div class="alert alert-warning" role="alert">
+      Sorry, the paper submission date has expired.
     </div>
   }
-  @if (id == 2)
-  {
-    <div class="alert alert-danger">
-      There was an error submitting your paper, please try again.
-    </div>
-  }
-  <form method="post" enctype="multipart/form-data">
-    <div class="form-group">
-      <label asp-for="paper.title">Paper title</label>
-      <input asp-for="paper.title" class="form-control">
-      <span asp-validation-for="paper.title" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-      <label asp-for="paper.topic">Paper Topic</label>
-      <input asp-for="paper.topic" class="form-control">
-      <span asp-validation-for="paper.topic" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-      <label asp-for="File">Paper File</label>
-      <input type="file" asp-for="File" class="form-control" accept="application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
-      <span asp-validation-for="File" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-      <label asp-for="paper.coAuthors">Paper Co-Authors</label>
-      <input asp-for="paper.coAuthors" class="form-control">
-      <span asp-validation-for="paper.coAuthors" class="text-danger"></span>
-    </div>
-    <div>
-      <button type="submit" class="btn btn-success">Submit</button>
-    </div>
-  </form>
 </div>

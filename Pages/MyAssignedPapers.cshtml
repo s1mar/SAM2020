@@ -4,6 +4,11 @@
     ViewData["Title"] = "My Assigned Papers";
     var id = RouteData.Values["id"] is null ? -99 : long.Parse(RouteData.Values["id"].ToString());
     var host = "/papers/";
+
+    Preference preferences = new Preference();
+    preferences.getPreferences();
+    var dateComparison = DateTime.Compare(preferences.reviewSubmission, DateTime.Now);
+    var isValidDate = dateComparison >= 0;
 }
 
 <div>
@@ -129,17 +134,26 @@
                   </div>
                   <div id="@String.Concat("collapse3", @paper.id)" class="collapse" aria-labelledby="headingTwo" data-parent="@String.Concat("#", "accordion", @paper.id)">
                     <div class="card-body">
-                      <form method="post">
-                        <div>
-                          <input type="hidden" name="review_id" value="@Model.userReviews[@paper.referenceName].id">
-                        </div>
-                        <div>
+                      @if (isValidDate)
+                      {
+                        <form method="post">
                           <div>
-                            <textarea name="review_text" rows="5" placeholder="Add your review here" style="width: 100%;"></textarea>
+                            <input type="hidden" name="review_id" value="@Model.userReviews[@paper.referenceName].id">
                           </div>
-                          <button type="submit" class="btn btn-success">Submit</button> 
+                          <div>
+                            <div>
+                              <textarea name="review_text" rows="5" placeholder="Add your review here" style="width: 100%;"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success">Submit</button> 
+                          </div>
+                        </form>
+                      }
+                      else 
+                      {
+                        <div class="alert alert-warning" role="alert">
+                          Sorry, the review submission date has expired.
                         </div>
-                      </form>
+                      }
                     </div>
                   </div>
                 </div>
