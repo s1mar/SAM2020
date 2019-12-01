@@ -120,7 +120,7 @@ namespace SAM2020.Models
               MySqlCommand SQLCommand = DBconnection.CreateCommand();
               MySqlDataReader dataReader;
               SQLCommand.CommandText = @"
-                SELECT r.review_id, r.paper_reference_name, r.edited_date, r.text, u.username, u.name
+                SELECT r.review_id, r.paper_reference_name, r.edited_date, r.text, u.username, u.name, u.user_id
                 FROM review r, user u
                 WHERE r.reviewer_id=u.user_id";
               dataReader = SQLCommand.ExecuteReader();
@@ -136,8 +136,9 @@ namespace SAM2020.Models
                     review.paperReferenceName = dataReader.GetString(1);
                     review.editedDate = dataReader.GetDateTime(2);
                     review.text = dataReader.GetString(3);
-                    review.reviewerName = dataReader.GetString(4);
-                    review.reviewerEmail = dataReader.GetString(5);
+                    review.reviewerEmail = dataReader.GetString(4);
+                    review.reviewerName = dataReader.GetString(5);
+                    review.reviewerId = dataReader.GetString(6);
 
                     if (!papersReviews.ContainsKey(paperId))
                     {

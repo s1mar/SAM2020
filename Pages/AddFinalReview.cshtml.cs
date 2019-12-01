@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-using System.IO;
 using SAM2020.Models;
 
 namespace SAM2020.Pages
@@ -67,6 +63,52 @@ namespace SAM2020.Pages
             }
 
             return RedirectToPage(Routes.ADD_FINAL_REVIEW, new { id = 3 });
+        }
+        public async Task<IActionResult> OnPostConflictAsync()
+        {
+            Reviews reviews = new Reviews();
+            Papers papers = new Papers();
+            papersReviews = reviews.getPapersReviews();
+            var selectedReviewer = Request.Form["selectedReviewer"];
+            string paperTitle = Request.Form["paper_title"];
+            string paperReference = Request.Form["paper_reference"];
+            string conflictMessage = Request.Form["conflict_message"];
+            string senderId = HttpContext.Session.GetString("userID");
+            string message = @"
+              Your review has conflicting views.
+              Paper: @paperTitle
+              Message: @conflictMessage
+              Users: ";
+
+            List<string> users = new List<string>();
+
+            foreach(Review review in papersReviews[paperReference])
+            {
+              if (Array.IndexOf(selectedReviewer, review.reviewerId) != -1) {
+                string username = review.reviewerName + " - " + review.reviewerEmail;
+                users.Add(username);
+              }
+
+            }
+
+            message = message + String.Join(", ", users.ToArray());;
+            message = message.Replace("@paperTitle", paperTitle);
+            message = message.Replace("@conflictMessage", conflictMessage);
+
+            if (String.IsNullOrEmpty(selectedReviewer)) {
+              return RedirectToPage(Routes.ADD_FINAL_REVIEW, new { id = 5 });
+            }
+
+            Notification notification = new Notification();
+
+            int status = notification.notifyConflict(senderId, message, selectedReviewer);
+
+            if (status == -1)
+            {
+              return RedirectToPage(Routes.ADD_FINAL_REVIEW, new { id = 6 });
+            }
+
+            return RedirectToPage(Routes.ADD_FINAL_REVIEW, new { id = 4 });
         }
     }
 }

@@ -82,6 +82,60 @@ namespace SAM2020.Models
             return status;
         }
 
+        public int notifyConflict(String senderId, String message, Array users)
+        {
+            int status = -1;
+            long notificationID = 0;
+
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
+                conn.Open();
+                MySqlCommand comm = conn.CreateCommand();
+                comm.CommandText = "INSERT INTO notification(senderId,message) VALUES(@senderId,@message)";
+                comm.Parameters.AddWithValue("@senderId", senderId);
+                comm.Parameters.AddWithValue("@message", message);
+   
+                status = comm.ExecuteNonQuery();
+                notificationID = comm.LastInsertedId;
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                string msg = e.Message;
+                return status;
+            }
+
+            if (notificationID == 0)
+            {
+                return status; // record didnot inserted
+            }
+
+            // send notifiaction to all subscribers
+            foreach(String userID in users)
+            {
+                try
+                {
+                    MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
+                    conn.Open();
+                    MySqlCommand comm = conn.CreateCommand();
+                    comm.CommandText = "INSERT INTO notification_recipients(notification_id,recipient_id) VALUES(@notification_id,@recipient_id)";
+                    comm.Parameters.AddWithValue("@notification_id", notificationID);
+                    comm.Parameters.AddWithValue("@recipient_id", userID);
+
+                    status = comm.ExecuteNonQuery();
+                    conn.Close();
+                }
+                catch (Exception e)
+                {
+                    string msg = e.Message;
+                }
+
+            }
+
+            return status;
+        }
+
         /*
          * 
          * Use this method to send notification to one user

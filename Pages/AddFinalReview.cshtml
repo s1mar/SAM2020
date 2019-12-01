@@ -26,7 +26,24 @@
         Something was wrong saving your review.
     </div>
   }
-
+  @if (id == 4)
+  {
+    <div class="alert alert-success">
+        Conflict succesfully recorded.
+    </div>
+  }
+  @if (id == 5)
+  {
+    <div class="alert alert-danger">
+        Please select at least one reviewer
+    </div>
+  }
+  @if (id == 6)
+  {
+    <div class="alert alert-danger">
+        Something wrong happened submitting the conflict.
+    </div>
+  }
   @if (Model.papersList.Count == 0)
   {
     <div class="alert alert-primary">
@@ -87,6 +104,55 @@
                   </div>
                   <div id="@String.Concat("collapse2", @paper.id)" class="collapse" aria-labelledby="headingTwo" data-parent="@String.Concat("#", "accordion", @paper.id)">
                     <div class="card-body">
+                      <div>
+                        <!-- Declare User Modal -->
+                        <div style="text-align: right; margin-bottom: 10px;">
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="@String.Concat("#", "conflictModal", @paper.id)">
+                            Declare Conflicts
+                          </button>
+                        </div>
+                        <div class="modal fade" id="@String.Concat("conflictModal", @paper.id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <form asp-page-handler="conflict" method="POST" style="display: inline;">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Declare Conflict</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  Select the reviewers
+                                  @foreach (var review in @Model.papersReviews[@paper.referenceName])
+                                  {
+                                    <div class="form-check">
+                                      <input type="checkbox"
+                                        value="@review.reviewerId"
+                                        class="form-check-input"
+                                        name="selectedReviewer"
+                                        id="@String.Concat("reviewer", @review.reviewerId)">
+                                      <label class="form-check-label" for="@String.Concat("reviewer", @review.reviewerId)">@review.reviewerName - @review.reviewerEmail</label>
+                                    </div>
+                                  }
+                                <div class="form-group">
+                                  <label>Message</label>
+                                  <textarea name="conflict_message"
+                                    rows="5"
+                                    placeholder="Add your message here"
+                                    style="width: 100%;"></textarea>
+                                </div>
+                                <input type="hidden" name="paper_reference" value="@paper.referenceName">
+                                <input type="hidden" name="paper_title" value="@paper.title">
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="submit" class="btn btn-primary">Send</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       @if (@Model.papersReviews.ContainsKey(@paper.referenceName))
                       {
                         @foreach (var review in @Model.papersReviews[@paper.referenceName])
