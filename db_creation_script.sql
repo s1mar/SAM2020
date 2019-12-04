@@ -105,7 +105,7 @@ describe preselection;
 
 CREATE TABLE `sam2020`.`review` (
   `review_id` int(11) NOT NULL AUTO_INCREMENT,
-  `paper_id` int(11) NOT NULL,
+  `paper_id` int(11) ,
   `reviewer_id` int(11) NOT NULL,
   `paper_reference_name` varchar(500) DEFAULT NULL,
   `text` varchar(500) DEFAULT NULL,
