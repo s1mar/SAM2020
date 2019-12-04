@@ -19,6 +19,11 @@
 }
 
 <h3>My Notifications</h3>
+<div style="text-align: right; margin-bottom: 6px;">
+    <a asp-area="" asp-page="@Routes.CREATE_NOTIFICATION">
+      <button type="button" class="btn btn-primary">Send Notification</button>
+    </a>
+</div>
 @foreach (UserNotificationObj userNotification in userNotificationsList)
 {
   @if (userNotification.isRead == 0) {

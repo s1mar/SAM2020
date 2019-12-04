@@ -147,5 +147,43 @@ namespace SAM2020.Models
 
           return userExist;
       }
+
+      public List<User> getAllUsers()
+      {
+          List<User> userList = new List<User>();
+
+          try
+          {
+              MySqlConnection DBconnection = new MySqlConnection(DBConnect.MyConString);
+              DBconnection.Open();
+              MySqlCommand SQLCommand = DBconnection.CreateCommand();
+              MySqlDataReader dataReader;
+              SQLCommand.CommandText = "SELECT user_id, username, name from USER";
+              dataReader = SQLCommand.ExecuteReader();
+
+              try
+              {
+                  while (dataReader.Read())
+                  {
+                      User user = new User();
+                      user.id = dataReader.GetInt32(0);
+                      user.userEmail = dataReader.GetString(1);
+                      user.name = dataReader.GetString(2);
+                      userList.Add(user);
+                  }
+              }
+              finally
+              {
+                  dataReader.Close();
+                  DBconnection.Close();
+              }
+          }
+          catch (Exception e)
+          {
+              Console.WriteLine(e.Message);
+          }
+
+          return userList;
+      }
     }
 }

@@ -16,6 +16,8 @@ namespace SAM2020.Models
         [Required]
         public string userRole { get; set; }
 
+        public int recipientId { get; set; }
+
         /*
          * status =0 erro
          * status =1 send
