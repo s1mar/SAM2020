@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Data;
- 
-
-namespace SAM2020.Models
+﻿namespace SAM2020.Models
 {
   public class Roles
   {

@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Data;
- 
-
-namespace SAM2020.Models
+﻿namespace SAM2020.Models
 {
   public class Routes
   {
-    // Routes
     public const string LOGIN = "/Login";
     public const string ASSIGN_PAPER_DETAIL = "/assignpapersdetail";
     public const string INDEX = "/Index";
