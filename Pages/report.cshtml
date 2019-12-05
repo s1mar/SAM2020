@@ -2,33 +2,53 @@
 @model SAM2020.Pages.reportModel
 @{
     ViewData["Title"] = "report";
-
     Reports reports = new Reports();
 }
 
-<h1>Report</h1>
-
-<table class="table table-dark">
-    <thead>
-        <tr>
-            <th>Total number of submitted papers</th>
-            <th>@reports.getTotalSubmittedPapers()</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th>Total number of full reviewed papers</th>
-            <th>@reports.getTotalReviewedPapers()</th>
-        </tr>
-        <tr>
-            <th>Total number of not full reviewed papers</th>
-            <th>@reports.getTotalNotReviewedPapers()</th>
-        </tr>
-
-        <tr>
-            <th>Total number of papers has al lest one review</th>
-            <th>@reports.getTotalAlLestOneReviewedPapers()</th>
-        </tr>
-
-    </tbody>
-</table>
+<div class="container">
+  <h1>Reports</h1>
+  <div class="cards-container" style="display: flex; flex-wrap: wrap; justify-content: space-evenly;">
+    <div class="card text-white bg-success mb-3 col-sm-12 col-l-4" style="max-width: 18rem;">
+      <div class="card-body" style="text-align: center;text-align: center; display: flex; flex-direction: column; justify-content: center;">
+        <h5 class="card-title" style="font-size: 50px;">@reports.getTotalApprovedPapers()</h5>
+        <p class="card-text" style="font-size: 35px;">Approved Papers</p>
+      </div>
+    </div>
+    <div class="card text-white bg-warning mb-3 col-sm-12 col-l-4" style="max-width: 18rem;">
+      <div class="card-body" style="text-align: center;text-align: center; display: flex; flex-direction: column; justify-content: center;">
+        <h5 class="card-title" style="font-size: 50px;">@reports.getTotalNotSubittedReviews()</h5>
+        <p class="card-text" style="font-size: 35px;">Not Submitted Reviews</p>
+      </div>
+    </div>
+    <div class="card text-white bg-danger mb-3 col-sm-12 col-l-4" style="max-width: 18rem;">
+      <div class="card-body" style="text-align: center;text-align: center; display: flex; flex-direction: column; justify-content: center;">
+        <h5 class="card-title" style="font-size: 50px;">@reports.getTotalRejectedPapers()</h5>
+        <p class="card-text" style="font-size: 35px;">Rejected Papers</p>
+      </div>
+    </div>
+    <div class="card text-white bg-primary mb-3 col-sm-12 col-l-4" style="max-width: 18rem;">
+      <div class="card-body" style="text-align: center;text-align: center; display: flex; flex-direction: column; justify-content: center;">
+        <h5 class="card-title" style="font-size: 50px;">@reports.getTotalSubmittedPapers()</h5>
+        <p class="card-text" style="font-size: 35px;">Submitted Papers</p>
+      </div>
+    </div>
+    <div class="card text-white bg-primary mb-3 col-sm-12 col-l-4" style="max-width: 18rem;">
+      <div class="card-body" style="text-align: center;text-align: center; display: flex; flex-direction: column; justify-content: center;">
+        <h5 class="card-title" style="font-size: 50px;">@reports.getTotalFinalReviewedPapers()</h5>
+        <p class="card-text" style="font-size: 35px;">Final Reviewed Papers</p>
+      </div>
+    </div>
+    <div class="card text-white bg-primary mb-3 col-sm-12 col-l-4" style="max-width: 18rem;">
+      <div class="card-body" style="text-align: center;text-align: center; display: flex; flex-direction: column; justify-content: center;">
+        <h5 class="card-title" style="font-size: 50px;">@reports.getTotalReviews()</h5>
+        <p class="card-text" style="font-size: 35px;">Total Reviews</p>
+      </div>
+    </div>
+    <div class="card text-white bg-primary mb-3 col-sm-12 col-l-4" style="max-width: 18rem;">
+      <div class="card-body" style="text-align: center;text-align: center; display: flex; flex-direction: column; justify-content: center;">
+        <h5 class="card-title" style="font-size: 50px;">@reports.getTotalAuthors()</h5>
+        <p class="card-text" style="font-size: 35px;">Authors</p>
+      </div>
+    </div>
+  </div>
+</div>

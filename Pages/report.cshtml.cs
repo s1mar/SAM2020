@@ -1,12 +1,35 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Http;
+using SAM2020.Models;
 
 namespace SAM2020.Pages
 {
     public class reportModel : PageModel
     {
-        public void OnGet()
-        {
+        public async Task<IActionResult> OnGet() {
+          string user = HttpContext.Session.GetString("userID");
 
+          // If the user is not logged in
+          if (string.IsNullOrEmpty(user)) {
+            return RedirectToPage(Routes.LOGIN);
+          }
+
+          int userRole = -1;
+          if (!string.IsNullOrEmpty(HttpContext.Session.GetString("userRole"))) {
+            userRole = Convert.ToInt32(HttpContext.Session.GetString("userRole"));
+          }
+
+          // If the user is not a PCC or Admin, redirect to the main menu
+          if (userRole != Roles.PCC & userRole != Roles.ADMIN) {
+            return RedirectToPage(Routes.INDEX);
+          }
+
+          return null;
         }
     }
 }

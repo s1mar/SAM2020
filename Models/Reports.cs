@@ -16,7 +16,7 @@ namespace SAM2020.Models
                 MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
                 conn.Open();
                 MySqlCommand comm = conn.CreateCommand();
-                comm.CommandText = "SELECT  count(*) FROM paper ORDER BY version DESC";
+                comm.CommandText = "SELECT count(*) FROM paper ORDER BY version DESC";
 
                 totalSubmittedPapers = Convert.ToInt32(comm.ExecuteScalar());
                 conn.Close();
@@ -62,8 +62,130 @@ namespace SAM2020.Models
             return totalSubmittedPapers;
         }
 
-        public int getTotalReviewedPapers()
+       public  int getTotalNotSubittedReviews()
         {
+
+            int totalReviews = 0;
+
+
+            try
+            {
+
+                MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
+                conn.Open();
+                MySqlCommand comm = conn.CreateCommand();
+                comm.CommandText = "select count(*) from review where text = ''";
+
+                totalReviews = Convert.ToInt32(comm.ExecuteScalar());
+                conn.Close();
+
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+
+            return totalReviews;
+
+        }
+
+
+       public  int getTotalReviews()
+        {
+
+            int totalSubmittedReviews = 0;
+
+
+            try
+            {
+
+                MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
+                conn.Open();
+                MySqlCommand comm = conn.CreateCommand();
+                comm.CommandText = "select count(*) from review where text != ''";
+
+                totalSubmittedReviews = Convert.ToInt32(comm.ExecuteScalar());
+                conn.Close();
+
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+
+            return totalSubmittedReviews;
+
+        }
+       public  int getTotalApprovedPapers()
+        {
+
+            int totalCount = 0;
+
+
+            try
+            {
+
+                MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
+                conn.Open();
+                MySqlCommand comm = conn.CreateCommand();
+                comm.CommandText = "select count(*) from paper where status=2";
+
+                totalCount = Convert.ToInt32(comm.ExecuteScalar());
+                conn.Close();
+
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+
+            return totalCount;
+
+        }
+
+       public  int getTotalRejectedPapers()
+        {
+
+            int totalCount = 0;
+
+
+            try
+            {
+
+                MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
+                conn.Open();
+                MySqlCommand comm = conn.CreateCommand();
+                comm.CommandText = "select count(*) from paper where status=3";
+
+                totalCount = Convert.ToInt32(comm.ExecuteScalar());
+                conn.Close();
+
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+
+            return totalCount;
+
+        }
+
+
+       public int getTotalFinalReviewedPapers()
+        {
+
             int totalSubmittedPapers = 0;
 
 
@@ -73,7 +195,7 @@ namespace SAM2020.Models
                 MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
                 conn.Open();
                 MySqlCommand comm = conn.CreateCommand();
-                comm.CommandText = "select count(*) as countPaper from( select paper_reference_name, count(*) as numberOFReviews from review group by paper_reference_name) as t where numberOFReviews=3";
+                comm.CommandText = "select count(*) from paper where final_review != ''";
 
                 totalSubmittedPapers = Convert.ToInt32(comm.ExecuteScalar());
                 conn.Close();
@@ -88,13 +210,12 @@ namespace SAM2020.Models
 
 
             return totalSubmittedPapers;
+
         }
-
-
-       public  int getTotalAlLestOneReviewedPapers()
+       public int getTotalAuthors()
         {
 
-            int totalSubmittedPapers = 0;
+            int totalCount = 0;
 
 
             try
@@ -103,9 +224,9 @@ namespace SAM2020.Models
                 MySqlConnection conn = new MySqlConnection(DBConnect.MyConString);
                 conn.Open();
                 MySqlCommand comm = conn.CreateCommand();
-                comm.CommandText = "select count(*) as countPaper from( select paper_reference_name, count(*) as numberOFReviews from review group by paper_reference_name) as t where numberOFReviews>0 and numberOFReviews<3";
+                comm.CommandText = "select count(*) from user where role_id = 2";
 
-                totalSubmittedPapers = Convert.ToInt32(comm.ExecuteScalar());
+                totalCount = Convert.ToInt32(comm.ExecuteScalar());
                 conn.Close();
 
 
@@ -117,9 +238,8 @@ namespace SAM2020.Models
             }
 
 
-            return totalSubmittedPapers;
+            return totalCount;
 
         }
-
     }
 }
